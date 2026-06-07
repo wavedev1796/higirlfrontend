@@ -1,16 +1,25 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type RegisterState = "idle" | "loading" | "success" | "error";
 
 type RegisterResponse = {
+  message?: string | string[];
   mensaje?: string;
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api/v1";
+
+function getResponseMessage(data: RegisterResponse, fallback: string) {
+  if (Array.isArray(data.message)) {
+    return data.message.join(" ");
+  }
+
+  return data.mensaje ?? data.message ?? fallback;
+}
 
 function FieldIcon({ name }: { name: "user" | "mail" | "lock" }) {
   const paths = {
@@ -58,27 +67,41 @@ export default function RegisterPage() {
   const [status, setStatus] = useState<RegisterState>("idle");
   const [message, setMessage] = useState("");
 
-  const canSubmit = useMemo(
-    () =>
-      firstName.trim().length >= 2 &&
-      lastName.trim().length >= 2 &&
-      email.trim().length > 0 &&
-      password.length >= 8 &&
-      confirmPassword.length >= 8 &&
-      status !== "loading",
-    [confirmPassword, email, firstName, lastName, password, status],
-  );
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("loading");
     setMessage("");
+
+    if (firstName.trim().length < 2) {
+      setStatus("error");
+      setMessage("Ingresa un nombre de al menos 2 caracteres.");
+      return;
+    }
+
+    if (lastName.trim().length < 2) {
+      setStatus("error");
+      setMessage("Ingresa un apellido de al menos 2 caracteres.");
+      return;
+    }
+
+    if (!email.trim()) {
+      setStatus("error");
+      setMessage("Ingresa tu correo electronico.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setStatus("error");
+      setMessage("La contrasena debe tener al menos 8 caracteres.");
+      return;
+    }
 
     if (password !== confirmPassword) {
       setStatus("error");
       setMessage("Las contrasenas no coinciden.");
       return;
     }
+
+    setStatus("loading");
 
     try {
       const response = await fetch(`${API_URL}/auth/register`, {
@@ -97,11 +120,11 @@ export default function RegisterPage() {
       const data = (await response.json().catch(() => ({}))) as RegisterResponse;
 
       if (!response.ok) {
-        throw new Error(data.mensaje ?? "No pudimos crear la cuenta.");
+        throw new Error(getResponseMessage(data, "No pudimos crear la cuenta."));
       }
 
       setStatus("success");
-      setMessage(data.mensaje ?? "Cuenta creada exitosamente.");
+      setMessage(getResponseMessage(data, "Cuenta creada exitosamente."));
       router.push("/");
     } catch (error) {
       setStatus("error");
@@ -214,7 +237,7 @@ export default function RegisterPage() {
               </label>
             </div>
 
-            <button className="primary-button" disabled={!canSubmit} type="submit">
+            <button className="primary-button" disabled={status === "loading"} type="submit">
               {status === "loading" ? "Creando cuenta..." : "Crear cuenta"}
             </button>
 

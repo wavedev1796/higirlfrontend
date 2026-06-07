@@ -1,11 +1,12 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 
 type LoginState = "idle" | "loading" | "success" | "error";
 
 type LoginResponse = {
+  message?: string | string[];
   mensaje?: string;
   token?: string;
   usuario?: string;
@@ -17,6 +18,14 @@ type LoginResponse = {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/api/v1";
 
+function getResponseMessage(data: LoginResponse, fallback: string) {
+  if (Array.isArray(data.message)) {
+    return data.message.join(" ");
+  }
+
+  return data.mensaje ?? data.message ?? fallback;
+}
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,16 +33,18 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
   const [profile, setProfile] = useState<LoginResponse | null>(null);
 
-  const canSubmit = useMemo(
-    () => email.trim().length > 0 && password.length > 0 && status !== "loading",
-    [email, password, status],
-  );
-
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("loading");
     setMessage("");
     setProfile(null);
+
+    if (!email.trim() || !password) {
+      setStatus("error");
+      setMessage("Ingresa tu correo y contrasena para iniciar sesion.");
+      return;
+    }
+
+    setStatus("loading");
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -50,7 +61,7 @@ export default function LoginPage() {
       const data = (await response.json().catch(() => ({}))) as LoginResponse;
 
       if (!response.ok) {
-        throw new Error(data.mensaje ?? "No pudimos iniciar sesion con esos datos.");
+        throw new Error(getResponseMessage(data, "No pudimos iniciar sesion con esos datos."));
       }
 
       if (data.token) {
@@ -58,7 +69,7 @@ export default function LoginPage() {
       }
 
       setProfile(data);
-      setMessage(data.mensaje ?? "Login correcto");
+      setMessage(getResponseMessage(data, "Login correcto"));
       setStatus("success");
     } catch (error) {
       setStatus("error");
@@ -154,7 +165,7 @@ export default function LoginPage() {
               <a href="#recuperar">Olvide mi contrasena</a>
             </div>
 
-            <button className="primary-button" disabled={!canSubmit} type="submit">
+            <button className="primary-button" disabled={status === "loading"} type="submit">
               {status === "loading" ? "Conectando..." : "Iniciar sesion"}
             </button>
 
