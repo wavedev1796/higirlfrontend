@@ -114,6 +114,7 @@ export default function RegisterPage() {
           lastName: lastName.trim(),
           email: email.trim(),
           password,
+          rol: "estudiante",
         }),
       });
 

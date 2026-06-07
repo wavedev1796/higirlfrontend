@@ -4,6 +4,11 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 
 type LoginState = "idle" | "loading" | "success" | "error";
+type ToastState = {
+  type: "success" | "error";
+  title: string;
+  description: string;
+} | null;
 
 type LoginResponse = {
   message?: string | string[];
@@ -32,6 +37,7 @@ export default function LoginPage() {
   const [status, setStatus] = useState<LoginState>("idle");
   const [message, setMessage] = useState("");
   const [profile, setProfile] = useState<LoginResponse | null>(null);
+  const [toast, setToast] = useState<ToastState>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -40,7 +46,13 @@ export default function LoginPage() {
 
     if (!email.trim() || !password) {
       setStatus("error");
-      setMessage("Ingresa tu correo y contrasena para iniciar sesion.");
+      const description = "Ingresa tu correo y contrasena para iniciar sesion.";
+      setMessage(description);
+      setToast({
+        type: "error",
+        title: "Datos incompletos",
+        description,
+      });
       return;
     }
 
@@ -69,19 +81,39 @@ export default function LoginPage() {
       }
 
       setProfile(data);
-      setMessage(getResponseMessage(data, "Login correcto"));
+      const description = getResponseMessage(data, "Login correcto");
+      setMessage(description);
+      setToast({
+        type: "success",
+        title: "Sesion iniciada",
+        description: `${description}. Bienvenida a Hi Girl.`,
+      });
       setStatus("success");
     } catch (error) {
-      setStatus("error");
-      setMessage(
+      const description =
         error instanceof Error
           ? error.message
-          : "No se pudo conectar con el backend. Revisa que la API este activa.",
-      );
+          : "No se pudo conectar con el backend. Revisa que la API este activa.";
+
+      setStatus("error");
+      setMessage(description);
+      setToast({
+        type: "error",
+        title: "No se pudo iniciar sesion",
+        description,
+      });
     }
   }
 
   return (
+    <>
+    {toast ? (
+      <div className={`toast-notification ${toast.type}`} role="status" aria-live="polite">
+        <strong>{toast.title}</strong>
+        <span>{toast.description}</span>
+      </div>
+    ) : null}
+
     <main className="login-shell">
       <section className="brand-panel" aria-label="Bienvenida a Hi Girl">
         <nav className="login-nav" aria-label="Hi Girl">
@@ -130,6 +162,13 @@ export default function LoginPage() {
             <h2>Inicia sesion</h2>
             <p>Accede con tu correo para continuar en Hi Girl.</p>
           </div>
+
+          {toast ? (
+            <div className={`login-alert ${toast.type}`} role="status" aria-live="polite">
+              <strong>{toast.title}</strong>
+              <span>{toast.description}</span>
+            </div>
+          ) : null}
 
           <form id="login-form" className="login-form" onSubmit={handleSubmit}>
             <label>
@@ -197,5 +236,6 @@ export default function LoginPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }
