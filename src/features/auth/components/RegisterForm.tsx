@@ -63,7 +63,7 @@ export function RegisterForm() {
     event.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Las contrasenas no coinciden.");
+      alert("Las contraseñas no coinciden.");
       return;
     }
 
@@ -116,20 +116,20 @@ export function RegisterForm() {
 
       <div className="field-grid">
         <Input
-          label="Contrasena"
+          label="Contraseña"
           name="password"
           type="password"
-          placeholder="Minimo 8 caracteres"
+          placeholder="Mínimo 8 caracteres"
           value={formData.password}
           onChange={handleChange}
           icon={<FieldIcon name="lock" />}
           required
         />
         <Input
-          label="Confirmar contrasena"
+          label="Confirmar contraseña"
           name="confirmPassword"
           type="password"
-          placeholder="Repite tu contrasena"
+          placeholder="Repite tu contraseña"
           value={formData.confirmPassword}
           onChange={handleChange}
           icon={<FieldIcon name="lock" />}
@@ -143,7 +143,7 @@ export function RegisterForm() {
 
       {error && (
         <div className="status-message error" role="status">
-          <strong>Atencion</strong>
+          <strong>Atención</strong>
           <span>{error}</span>
         </div>
       )}
@@ -156,7 +156,7 @@ export function RegisterForm() {
       )}
 
       <p className="signup-note">
-        Ya tienes cuenta? <Link href={ROUTES.LOGIN}>Iniciar sesion</Link>
+        Ya tienes cuenta? <Link href={ROUTES.LOGIN}>Iniciar sesión</Link>
       </p>
     </form>
   );

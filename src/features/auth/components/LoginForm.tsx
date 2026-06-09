@@ -76,7 +76,7 @@ export function LoginForm() {
       </div>
 
       <Button type="submit" isLoading={status === "loading"}>
-        Iniciar sesion
+        Iniciar sesión
       </Button>
 
       <Button type="button" variant="secondary">
@@ -85,14 +85,14 @@ export function LoginForm() {
 
       {error && (
         <div className="status-message error" role="status">
-          <strong>Atencion</strong>
+          <strong>Atención</strong>
           <span>{error}</span>
         </div>
       )}
 
       {profile && !error && (
         <div className="session-preview">
-          <span>Sesion activa</span>
+          <span>Sesión activa</span>
           <strong>
             {profile.nombre} {profile.apellido}
           </strong>
@@ -101,7 +101,7 @@ export function LoginForm() {
       )}
 
       <p className="signup-note">
-        Todavia no tienes cuenta? <Link href={ROUTES.REGISTER}>Crear cuenta</Link>
+        Todavía no tienes cuenta? <Link href={ROUTES.REGISTER}>Crear cuenta</Link>
       </p>
     </form>
   );

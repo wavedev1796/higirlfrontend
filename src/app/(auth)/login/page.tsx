@@ -38,7 +38,7 @@ export default function LoginPage() {
 
           <div className="preview-card message-card">
             <span aria-hidden="true">Hi</span>
-            <p>Tu proxima conexion puede empezar hoy.</p>
+            <p>Tu proxima conexión puede empezar hoy.</p>
           </div>
         </div>
       </section>
@@ -47,7 +47,7 @@ export default function LoginPage() {
         <div className="login-card">
           <div className="form-heading">
             <p className="eyebrow">Bienvenida de vuelta</p>
-            <h2>Inicia sesion</h2>
+            <h2>Inicia sesión</h2>
             <p>Accede con tu correo para continuar en Hi Girl.</p>
           </div>
 

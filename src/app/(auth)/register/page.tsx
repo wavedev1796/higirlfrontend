@@ -20,7 +20,7 @@ export default function RegisterPage() {
           <div className="form-heading">
             <p className="eyebrow">Nueva cuenta</p>
             <h2>Registrate</h2>
-            <p>Al crear tu cuenta volveras al login para iniciar sesion.</p>
+            <p>Al crear tu cuenta volveras al inicio de sesión.</p>
           </div>
 
           <RegisterForm />
