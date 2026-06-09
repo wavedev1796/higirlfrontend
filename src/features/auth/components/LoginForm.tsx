@@ -39,7 +39,7 @@ export function LoginForm() {
         // Redirigir al dashboard
         router.push(ROUTES.DASHBOARD);
       }
-    } catch (err) {
+    } catch {
       // Error handled by hook
     }
   }

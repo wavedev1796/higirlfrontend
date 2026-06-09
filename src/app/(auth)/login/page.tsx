@@ -11,7 +11,6 @@ export default function LoginPage() {
             </span>
             <span>Hi Girl</span>
           </div>
-          <a href="#login-form">Entrar</a>
         </nav>
 
         <div className="hero-copy">

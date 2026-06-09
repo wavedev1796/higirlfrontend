@@ -75,7 +75,7 @@ export function RegisterForm() {
         password: formData.password,
       });
       router.push(ROUTES.LOGIN);
-    } catch (err) {
+    } catch {
       // Error handled by hook
     }
   }
