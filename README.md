@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌸 Hi Girl - Web Application
 
-## Getting Started
+> **"Conecta con mujeres que realmente comparten tu estilo de vida e intereses."**
+> A safe space to be you.
 
-First, run the development server:
+Hi Girl es una plataforma diseñada exclusivamente para conectar mujeres según afinidades personales, estilo de vida, intereses y ubicación geográfica. El objetivo de esta plataforma es facilitar la creación de amistades, redes de apoyo, networking profesional y la participación en actividades presenciales o virtuales en espacios seguros.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+*Nota: Este repositorio contiene la primera fase del proyecto enfocada en la Aplicación Web (MVP). El desarrollo de la aplicación móvil nativa está planificado para una fase posterior.*
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Stack Tecnológico
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El desarrollo de la plataforma web está construido con las siguientes tecnologías:
 
-## Learn More
+**Frontend:**
+- **Framework:** [Next.js](https://nextjs.org/) (React)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
 
-To learn more about Next.js, take a look at the following resources:
+**Backend:**
+- **Entorno:** [Node.js](https://nodejs.org/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ✨ Funcionalidades Principales (MVP)
 
-## Deploy on Vercel
+La versión inicial (MVP) se enfoca en las funciones core de conexión y comunicación:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Autenticación y Registro:** Creación de cuenta mediante correo electrónico y futuras integraciones sociales (Google/Apple ID).
+- **Perfiles Detallados:** Configuración de perfil con foto, biografía, ciudad, intereses (Deportes, Tecnología, Emprendimiento, etc.) y categorías (Mamá, Emprendedora, Estudiante, etc.).
+- **Algoritmo de Matching:** Sistema de recomendación que calcula el porcentaje de compatibilidad basado en ciudad (30%), intereses (30%), estilo de vida (15%), edad (15%) y situación laboral (10%).
+- **Gestión de Conexiones:** Capacidad para descubrir personas, enviar solicitudes de conexión, aceptar o rechazar.
+- **Chat Privado:** Mensajería en tiempo real habilitada únicamente entre conexiones aceptadas, con soporte para texto, emojis e imágenes.
+- **Seguridad y Moderación:** Herramientas integradas para reportar acoso, spam, perfiles falsos y bloquear usuarias para mantener un espacio seguro.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🎯 Público Objetivo
+
+La comunidad de Hi Girl está diseñada para abarcar diversas etapas y necesidades de la mujer actual:
+- **Mujeres Profesionales y Emprendedoras (20-50 años):** Búsqueda de networking, colaboraciones y clientes potenciales.
+- **Mamás (25-45 años):** Búsqueda de consejos, actividades compartidas y experiencias de maternidad.
+- **Estudiantes (18-25 años):** Búsqueda de nuevas amistades, mentoría y actividades sociales.
+
+---
+
+## 🗺️ Roadmap del Proyecto
+
+- [x] **Fase 1 (Actual):** Desarrollo del MVP en formato Aplicación Web (Registro, Perfil, Matching, Chat).
+- [ ] **Fase 2:** Integración de Comunidades Temáticas (ej. "Mamás Quito", "Mujeres Tech Ecuador"), creación de eventos y Feed Social.
+- [ ] **Fase 3:** Migración/Desarrollo de la Aplicación Móvil, IA predictiva para mejorar el matching, Video Llamadas y Marketplace para emprendedoras.
+- [ ] **Fase 4:** Expansión a Latinoamérica y programa de embajadoras oficiales.
+
+---
+
+## 🎨 Diseño y Branding
+
+La identidad visual del proyecto transmite un ambiente seguro, moderno y acogedor:
+- **Tipografías:** Poppins (Títulos) y Lora (Cuerpo de texto).
+- **Paleta de Colores:** Tonos pastel, primando variaciones de rosa y blanco (#FDF5F6, #F8BBD0, etc.) para mantener consistencia con los mockups de diseño iniciales.
+
+---
