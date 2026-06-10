@@ -37,7 +37,7 @@ export default function LoginPage() {
 
           <div className="preview-card message-card">
             <span aria-hidden="true">Hi</span>
-            <p>Tu proxima conexión puede empezar hoy.</p>
+            <p>Tu próxima conexión puede empezar hoy.</p>
           </div>
         </div>
       </section>

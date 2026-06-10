@@ -47,7 +47,7 @@ export function LoginForm() {
   return (
     <form id="login-form" className="login-form" onSubmit={handleSubmit}>
       <Input
-        label="Correo electronico"
+        label="Correo electrónico"
         type="email"
         placeholder="tu@email.com"
         value={email}
@@ -72,7 +72,7 @@ export function LoginForm() {
           <input type="checkbox" />
           Recordarme
         </label>
-        <a href="#recuperar">Olvide mi contraseña</a>
+        <a href="#recuperar">Olvidé mi contraseña</a>
       </div>
 
       <Button type="submit" isLoading={status === "loading"}>

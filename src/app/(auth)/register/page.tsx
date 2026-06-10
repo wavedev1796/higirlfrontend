@@ -12,14 +12,14 @@ export default function RegisterPage() {
             </span>
             <span>Hi Girl</span>
           </div>
-          <Link href={ROUTES.LOGIN}>Login</Link>
+          <Link href={ROUTES.LOGIN}>Iniciar sesión</Link>
       </nav>
 
       <section className="register-center" aria-label="Formulario de registro">
         <div className="login-card register-card">
           <div className="form-heading">
             <p className="eyebrow">Nueva cuenta</p>
-            <h2>Registrate</h2>
+            <h2>Regístrate</h2>
             <p>Al crear tu cuenta volveras al inicio de sesión.</p>
           </div>
 

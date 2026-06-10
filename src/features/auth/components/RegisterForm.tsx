@@ -104,7 +104,7 @@ export function RegisterForm() {
       </div>
 
       <Input
-        label="Correo electronico"
+        label="Correo electrónico"
         name="email"
         type="email"
         placeholder="tu@email.com"
@@ -156,7 +156,7 @@ export function RegisterForm() {
       )}
 
       <p className="signup-note">
-        Ya tienes cuenta? <Link href={ROUTES.LOGIN}>Iniciar sesión</Link>
+        ¿Ya tienes cuenta? <Link href={ROUTES.LOGIN}>Iniciar sesión</Link>
       </p>
     </form>
   );
