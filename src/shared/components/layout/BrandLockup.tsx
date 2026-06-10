@@ -1,10 +1,11 @@
 /**
  * Shared — Brand lockup (logo + name).
  *
- * The Hi Girl logo mark + wordmark used in login, register, and navbar.
+ * The Hi Girl logo image + wordmark used in login, register, and navbar.
  */
 
 import React from "react";
+import Image from "next/image";
 
 interface BrandLockupProps {
   className?: string;
@@ -13,9 +14,13 @@ interface BrandLockupProps {
 export const BrandLockup: React.FC<BrandLockupProps> = ({ className = "" }) => {
   return (
     <div className={`brand-lockup ${className}`}>
-      <span className="logo-mark" aria-hidden="true">
-        <span />
-      </span>
+      <Image
+        src="/logo-higirl.png"
+        alt="Hi Girl logo"
+        width={40}
+        height={40}
+        priority
+      />
       <span>Hi Girl</span>
     </div>
   );

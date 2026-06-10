@@ -15,22 +15,8 @@
   color: var(--error);
 }
 
-.logo-mark {
-  position: relative;
-  display: grid;
-  width: 2.4rem;
-  height: 2.4rem;
-  place-items: center;
-  border-radius: 0.75rem;
-  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
-  box-shadow: 0 4px 12px rgba(227, 72, 121, 0.2);
-}
-
-.logo-mark span {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: #fff;
+.brand-lockup img {
+  border-radius: 0.5rem;
 }
 
 /* ── Buttons ───────────────────────────────────────────────────────── */
