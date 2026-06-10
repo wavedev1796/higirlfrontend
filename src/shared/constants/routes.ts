@@ -1,0 +1,14 @@
+/**
+ * Shared — Navigation routes.
+ *
+ * Only client-side navigation paths. API endpoints live in
+ * `infrastructure/api/endpoints.ts`.
+ */
+
+export const ROUTES = {
+  HOME: "/",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  DASHBOARD: "/feed",
+  PROFILE: "/profile",
+} as const;
