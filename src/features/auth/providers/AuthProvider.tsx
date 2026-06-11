@@ -1,7 +1,15 @@
+/**
+ * Auth feature — AuthProvider.
+ *
+ * React context for authentication state. Delegates all token
+ * persistence to `infrastructure/storage/tokenStorage`.
+ */
+
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { User } from "../features/auth/types";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import type { User } from "@/shared/types/user.types";
+import { tokenStorage } from "@/infrastructure/storage/tokenStorage";
 
 interface AuthContextType {
   user: User | null;
@@ -16,21 +24,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("higirl_token");
+    const token = tokenStorage.get();
     if (token) {
-      // Aquí se podría validar el token o cargar el perfil
+      // TODO: validate token or load profile from API
     }
   }, []);
 
-  const login = (userData: User, token: string) => {
+  const login = useCallback((userData: User, token: string) => {
     setUser(userData);
-    localStorage.setItem("higirl_token", token);
-  };
+    tokenStorage.set(token);
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem("higirl_token");
-  };
+    tokenStorage.remove();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>

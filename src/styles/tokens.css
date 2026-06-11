@@ -1,0 +1,51 @@
+/* =============================================================================
+   Design Tokens — Hi Girl
+   =============================================================================
+   CSS custom properties (colours, typography, spacing, shadows).
+   These tokens are the single source of truth for the design system.
+   ============================================================================= */
+
+@import "tailwindcss";
+
+:root {
+  /* ── Brand palette ───────────────────────────────────────────────── */
+  --brand: #ffc8dd;
+  --brand-strong: #ef6491;
+  --lavender: #e7c6ff;
+  --violet: #d6bcfa;
+
+  /* ── Neutral palette ─────────────────────────────────────────────── */
+  --background: #fff9fb;
+  --foreground: #1f2937;
+  --muted: #6b7280;
+  --surface: rgba(255, 255, 255, 0.82);
+
+  /* ── Semantic ────────────────────────────────────────────────────── */
+  --success: #35a87e;
+  --success-bg: rgba(232, 250, 243, 0.9);
+  --error: #7a1f3f;
+  --error-bg: rgba(255, 228, 237, 0.82);
+
+  /* ── Shadows ─────────────────────────────────────────────────────── */
+  --shadow: 0 8px 32px rgba(227, 72, 121, 0.08);
+  --shadow-lg: 0 16px 28px rgba(227, 72, 121, 0.28);
+
+  /* ── Radii ───────────────────────────────────────────────────────── */
+  --radius-sm: 0.95rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.65rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-heading: var(--font-spartan);
+  --font-body: var(--font-lora);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}

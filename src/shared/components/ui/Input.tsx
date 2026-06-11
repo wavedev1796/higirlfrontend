@@ -1,3 +1,9 @@
+/**
+ * Shared UI — Input component.
+ *
+ * Renders a labelled input with optional leading icon and error message.
+ */
+
 import React from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

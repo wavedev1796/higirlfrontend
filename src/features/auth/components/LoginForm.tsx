@@ -1,13 +1,20 @@
+/**
+ * Auth feature — LoginForm component.
+ *
+ * Handles form state and submission. Integrates with the auth store
+ * for global session management.
+ */
+
 "use client";
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLogin } from "../hooks/useLogin";
-import { useAuthStore } from "../../../store/authStore";
-import { Button } from "../../../components/ui/Button";
-import { Input } from "../../../components/ui/Input";
-import { ROUTES } from "../../../constants/routes";
+import { useAuthStore } from "../providers/AuthProvider";
+import { Button } from "@/shared/components/ui/Button";
+import { Input } from "@/shared/components/ui/Input";
+import { ROUTES } from "@/shared/constants/routes";
 
 export function LoginForm() {
   const router = useRouter();
@@ -23,20 +30,18 @@ export function LoginForm() {
     try {
       const response = await login({ email: email.trim(), password });
 
-      // Integrar con el auth store global
-      if (response && response.token) {
+      if (response?.token) {
         authStore.login(
           {
             id: response.usuario ?? "",
             email: response.email ?? email.trim(),
             firstName: response.nombre ?? "",
             lastName: response.apellido ?? "",
-            rol: response.rol ?? "user",
+            rol: (response.rol as "user" | "admin") ?? "user",
           },
           response.token,
         );
 
-        // Redirigir al dashboard
         router.push(ROUTES.DASHBOARD);
       }
     } catch {
@@ -106,4 +111,3 @@ export function LoginForm() {
     </form>
   );
 }
-

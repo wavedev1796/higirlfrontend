@@ -1,3 +1,9 @@
+/**
+ * Shared UI — Button component.
+ *
+ * Supports `primary` and `secondary` variants with a loading state.
+ */
+
 import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -14,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseClass = variant === "primary" ? "primary-button" : "secondary-button";
-  
+
   return (
     <button
       className={`${baseClass} ${className}`}

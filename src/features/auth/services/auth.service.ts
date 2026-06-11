@@ -1,11 +1,26 @@
-import { fetchApi } from "../../../lib/api";
-import { API_ENDPOINTS } from "../../../constants/routes";
-import { LoginResponse, RegisterResponse } from "../types";
+/**
+ * Auth feature — auth service.
+ *
+ * Handles all API calls related to authentication.
+ */
 
-type LoginCredentials = Record<string, unknown>;
-type RegisterUserData = Record<string, unknown> & {
+import { fetchApi } from "@/infrastructure/api/client";
+import { API_ENDPOINTS } from "@/infrastructure/api/endpoints";
+import type { LoginResponse, RegisterResponse } from "../types";
+
+interface LoginCredentials {
+  email: string;
+  password: string;
+  [key: string]: unknown;
+}
+
+interface RegisterUserData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
   rol?: string;
-};
+}
 
 export const authService = {
   login: async (credentials: LoginCredentials): Promise<LoginResponse> => {
@@ -28,4 +43,4 @@ export const authService = {
   getProfile: async (): Promise<unknown> => {
     return fetchApi<unknown>(API_ENDPOINTS.AUTH.ME);
   },
-};
+} as const;

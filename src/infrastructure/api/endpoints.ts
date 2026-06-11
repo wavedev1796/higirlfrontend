@@ -1,10 +1,8 @@
-export const ROUTES = {
-  HOME: "/",
-  LOGIN: "/login",
-  REGISTER: "/register",
-  DASHBOARD: "/feed",
-  PROFILE: "/profile",
-} as const;
+/**
+ * Backend API endpoint paths.
+ *
+ * Only raw paths here — no base URL. The API client prepends `env.API_URL`.
+ */
 
 export const API_ENDPOINTS = {
   AUTH: {

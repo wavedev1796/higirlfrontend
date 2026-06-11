@@ -1,33 +1,25 @@
-import { useState } from "react";
-import { authService } from "../services/authService";
-import { RegisterResponse } from "../types";
+/**
+ * Auth feature — useRegister hook.
+ *
+ * Uses the shared `useAsync` pattern.
+ */
 
-type RegisterData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-};
+"use client";
+
+import { useCallback } from "react";
+import { useAsync } from "@/shared/hooks/useAsync";
+import { authService } from "../services/auth.service";
+import type { RegisterResponse, RegisterRequest } from "../types";
 
 export function useRegister() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<RegisterResponse | null>(null);
+  const { status, data, error, execute } = useAsync<RegisterResponse>();
 
-  const register = async (userData: RegisterData) => {
-    setStatus("loading");
-    setError(null);
-    try {
-      const response = await authService.register(userData);
-      setData(response);
-      setStatus("success");
-      return response;
-    } catch (err: unknown) {
-      setStatus("error");
-      setError(err instanceof Error ? err.message : "Error al crear cuenta");
-      throw err;
-    }
-  };
+  const register = useCallback(
+    async (userData: RegisterRequest) => {
+      return execute(() => authService.register(userData));
+    },
+    [execute],
+  );
 
   return { register, status, error, data };
 }

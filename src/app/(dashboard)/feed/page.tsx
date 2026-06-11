@@ -1,3 +1,7 @@
+/**
+ * Feed page — placeholder for the main feed.
+ */
+
 export default function FeedPage() {
   return (
     <section className="feed-page">
