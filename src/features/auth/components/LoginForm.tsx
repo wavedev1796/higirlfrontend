@@ -9,7 +9,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useLogin } from "../hooks/useLogin";
 import { useAuthStore } from "../providers/AuthProvider";
 import { Button } from "@/shared/components/ui/Button";
@@ -18,6 +18,7 @@ import { ROUTES } from "@/shared/constants/routes";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, status, error, data: profile } = useLogin();
@@ -42,7 +43,10 @@ export function LoginForm() {
           response.token,
         );
 
-        router.push(ROUTES.DASHBOARD);
+        const callbackUrl = searchParams.get("callbackUrl");
+        router.replace(
+          callbackUrl?.startsWith("/") ? callbackUrl : ROUTES.DASHBOARD,
+        );
       }
     } catch {
       // Error handled by hook

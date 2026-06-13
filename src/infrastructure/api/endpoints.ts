@@ -12,4 +12,13 @@ export const API_ENDPOINTS = {
     RESET_PASSWORD: "/auth/reset-password",
     ME: "/auth/perfil",
   },
+  PROFILE: {
+    ME: "/perfil/me",
+    PHOTO: "/perfil/me/foto",
+    INTERESTS: "/perfil/me/intereses",
+  },
+  CATALOGS: {
+    INTERESTS: "/intereses",
+    CATEGORIES: "/categorias",
+  },
 } as const;

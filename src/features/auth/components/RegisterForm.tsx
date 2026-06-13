@@ -11,6 +11,8 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRegister } from "../hooks/useRegister";
+import { useLogin } from "../hooks/useLogin";
+import { useAuthStore } from "../providers/AuthProvider";
 import { Button } from "@/shared/components/ui/Button";
 import { Input } from "@/shared/components/ui/Input";
 import { FieldIcon } from "@/shared/components/icons/FieldIcon";
@@ -26,6 +28,8 @@ export function RegisterForm() {
     confirmPassword: "",
   });
   const { register, status, error, data } = useRegister();
+  const { login } = useLogin();
+  const authStore = useAuthStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,7 +50,29 @@ export function RegisterForm() {
         email: formData.email.trim(),
         password: formData.password,
       });
-      router.push(ROUTES.LOGIN);
+      const session = await login({
+        email: formData.email.trim(),
+        password: formData.password,
+      });
+
+      if (!session.token) {
+        router.replace(
+          `${ROUTES.LOGIN}?callbackUrl=${encodeURIComponent(`${ROUTES.PROFILE_EDIT}?onboarding=1`)}`,
+        );
+        return;
+      }
+
+      authStore.login(
+        {
+          id: session.usuario ?? "",
+          email: session.email ?? formData.email.trim(),
+          firstName: session.nombre ?? formData.firstName.trim(),
+          lastName: session.apellido ?? formData.lastName.trim(),
+          rol: (session.rol as "user" | "admin") ?? "user",
+        },
+        session.token,
+      );
+      router.replace(`${ROUTES.PROFILE_EDIT}?onboarding=1`);
     } catch {
       // Error handled by hook
     }

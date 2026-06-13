@@ -8,7 +8,7 @@
 export type UserRole = "user" | "admin";
 
 export interface User {
-  id: string;
+  id: number | string;
   email: string;
   firstName: string;
   lastName: string;

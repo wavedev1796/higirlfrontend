@@ -21,6 +21,7 @@ export interface LoginResponse {
   apellido?: string;
   email?: string;
   rol?: string;
+  intereses?: Array<{ id: number; nombre: string }>;
 }
 
 export interface RegisterRequest {
@@ -33,4 +34,12 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   message?: string | string[];
   mensaje?: string;
+  usuario?: {
+    id: number;
+    nombre: string;
+    apellido: string;
+    email: string;
+    usuario: string;
+    rol: string;
+  };
 }

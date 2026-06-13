@@ -11,4 +11,5 @@ export const ROUTES = {
   REGISTER: "/register",
   DASHBOARD: "/feed",
   PROFILE: "/profile",
+  PROFILE_EDIT: "/profile/edit",
 } as const;

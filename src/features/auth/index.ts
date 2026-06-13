@@ -10,6 +10,7 @@ export { LoginForm } from "./components/LoginForm";
 export { LoginView } from "./components/LoginView";
 export { RegisterForm } from "./components/RegisterForm";
 export { RegisterView } from "./components/RegisterView";
+export { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Providers
 export { AuthProvider, useAuthStore } from "./providers/AuthProvider";
