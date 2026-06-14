@@ -13,4 +13,5 @@ export interface User {
   firstName: string;
   lastName: string;
   rol: UserRole;
+  interestsCount?: number;
 }

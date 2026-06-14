@@ -1,10 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { BrandLockup } from "@/shared/components/layout/BrandLockup";
 import { ROUTES } from "@/shared/constants/routes";
 import { ProtectedRoute, useAuthStore } from "@/features/auth";
+
+const NAV_LINKS = [
+  { href: ROUTES.DASHBOARD, label: "Inicio" },
+  { href: ROUTES.PROFILE, label: "Mi Perfil" },
+  { href: ROUTES.SETTINGS, label: "Ajustes" },
+];
 
 export default function DashboardLayout({
   children,
@@ -12,6 +18,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, logout } = useAuthStore();
 
   function handleLogout() {
@@ -27,16 +34,23 @@ export default function DashboardLayout({
             <Link href={ROUTES.DASHBOARD} aria-label="Ir al inicio">
               <BrandLockup />
             </Link>
-            <nav aria-label="Navegación principal">
-              <Link href={ROUTES.DASHBOARD}>Inicio</Link>
-              <Link href={ROUTES.PROFILE}>Mi perfil</Link>
-              <button type="button" onClick={handleLogout}>
+            <nav>
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={pathname === link.href ? "nav-active" : ""}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="dashboard-user">
+              <span>{user?.firstName || "Girl"}</span>
+              <button type="button" onClick={handleLogout} className="logout-btn">
                 Cerrar sesión
               </button>
-            </nav>
-            <span className="dashboard-user">
-              Hola, {user?.firstName || "Girl"}
-            </span>
+            </div>
           </div>
         </header>
         <main className="dashboard-main">{children}</main>

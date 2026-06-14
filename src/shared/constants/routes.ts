@@ -12,4 +12,8 @@ export const ROUTES = {
   DASHBOARD: "/feed",
   PROFILE: "/profile",
   PROFILE_EDIT: "/profile/edit",
+  INTERESTS: "/intereses",
+  SETTINGS: "/ajustes",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
 } as const;

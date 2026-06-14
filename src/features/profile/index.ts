@@ -1,5 +1,7 @@
 export { ProfileView } from "./components/ProfileView";
 export { EditProfileForm } from "./components/EditProfileForm";
+export { InterestsSelection } from "./components/InterestsSelection";
+export { InterestsModal } from "./components/InterestsModal";
 export { profileService, getProfilePhotoUrl } from "./services/profile.service";
 export type {
   CatalogItem,

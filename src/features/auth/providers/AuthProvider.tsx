@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         firstName: profile.nombre,
         lastName: profile.apellido,
         rol: "user",
+        interestsCount: profile.intereses?.length ?? 0,
       });
     } catch {
       tokenStorage.remove();

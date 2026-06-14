@@ -8,15 +8,16 @@ import { useAuthStore } from "../providers/AuthProvider";
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated, isLoading } = useAuthStore();
+  const { isAuthenticated, isLoading, user } = useAuthStore();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       router.replace(
         `${ROUTES.LOGIN}?callbackUrl=${encodeURIComponent(pathname)}`,
       );
+      return;
     }
-  }, [isAuthenticated, isLoading, pathname, router]);
+  }, [isAuthenticated, isLoading, pathname, router, user]);
 
   if (isLoading || !isAuthenticated) {
     return (

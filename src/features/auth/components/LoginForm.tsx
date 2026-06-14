@@ -81,7 +81,7 @@ export function LoginForm() {
           <input type="checkbox" />
           Recordarme
         </label>
-        <a href="#recuperar">Olvidé mi contraseña</a>
+        <Link href={ROUTES.FORGOT_PASSWORD}>Olvidé mi contraseña</Link>
       </div>
 
       <Button type="submit" isLoading={status === "loading"}>

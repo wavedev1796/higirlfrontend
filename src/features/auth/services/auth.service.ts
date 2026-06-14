@@ -23,4 +23,15 @@ export const authService = {
     apiClient.post<RegisterResponse>(API_ENDPOINTS.AUTH.REGISTER, userData),
 
   getProfile: () => apiClient.get<Profile>(API_ENDPOINTS.PROFILE.ME),
+
+  forgotPassword: (email: string) =>
+    apiClient.post<{ message: string }>(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, {
+      email,
+    }),
+
+  resetPassword: (password: string, token: string) =>
+    apiClient.post<{ message: string }>(API_ENDPOINTS.AUTH.RESET_PASSWORD, {
+      password,
+      token,
+    }),
 } as const;
