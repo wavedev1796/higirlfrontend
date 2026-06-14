@@ -9,6 +9,11 @@ Hi Girl es una plataforma diseñada exclusivamente para conectar mujeres según 
 
 ---
 
+## Documentacion de sprints
+
+- `docs/HG-F3-006.md`: perfil frontend, foto y onboarding.
+- `docs/HG-F3-007.md`: cliente HTTP centralizado.
+
 ## 🚀 Stack Tecnológico
 
 El desarrollo de la plataforma web está construido con las siguientes tecnologías:
