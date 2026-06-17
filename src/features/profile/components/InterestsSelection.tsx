@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/shared/components/ui/Button";
 import { ROUTES } from "@/shared/constants/routes";
 import { useAuthStore } from "@/features/auth";
@@ -10,6 +10,8 @@ import type { CatalogItem } from "../types";
 
 export function InterestsSelection({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isOnboarding = searchParams.get("onboarding") === "1";
   const { refreshUser } = useAuthStore();
   const [interests, setInterests] = useState<CatalogItem[]>([]);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -54,6 +56,9 @@ export function InterestsSelection({ onSuccess }: { onSuccess?: () => void }) {
       await refreshUser();
       if (onSuccess) {
         onSuccess();
+      } else if (isOnboarding) {
+        // Onboarding step 1 done → go to complete profile (step 2)
+        router.replace(`${ROUTES.PROFILE_EDIT}?onboarding=1`);
       } else {
         router.replace(ROUTES.DASHBOARD);
       }

@@ -32,6 +32,7 @@ export function LoginForm() {
       const response = await login({ email: email.trim(), password });
 
       if (response?.token) {
+        const interestsCount = (response.intereses ?? []).length;
         authStore.login(
           {
             id: response.usuario ?? "",
@@ -39,9 +40,16 @@ export function LoginForm() {
             firstName: response.nombre ?? "",
             lastName: response.apellido ?? "",
             rol: (response.rol as "user" | "admin") ?? "user",
+            interestsCount,
           },
           response.token,
         );
+
+        // First-time login: send to onboarding (interests → profile)
+        if (interestsCount === 0) {
+          router.replace(`${ROUTES.INTERESTS}?onboarding=1`);
+          return;
+        }
 
         const callbackUrl = searchParams.get("callbackUrl");
         router.replace(

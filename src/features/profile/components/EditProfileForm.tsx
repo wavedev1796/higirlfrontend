@@ -152,7 +152,7 @@ export function EditProfileForm() {
         await profileService.uploadPhoto(photoFile);
       }
       await refreshUser();
-      router.replace(ROUTES.PROFILE);
+      router.replace(isOnboarding ? ROUTES.DASHBOARD : ROUTES.PROFILE);
     } catch (requestError) {
       setError(
         requestError instanceof Error
@@ -177,7 +177,7 @@ export function EditProfileForm() {
     <section className="profile-page edit-profile-page">
       {isOnboarding && (
         <div className="onboarding-banner">
-          <span>Paso final</span>
+          <span>Paso 2 de 2</span>
           <div>
             <strong>Haz que tu perfil hable de ti</strong>
             <p>

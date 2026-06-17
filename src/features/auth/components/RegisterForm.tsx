@@ -57,7 +57,7 @@ export function RegisterForm() {
 
       if (!session.token) {
         router.replace(
-          `${ROUTES.LOGIN}?callbackUrl=${encodeURIComponent(`${ROUTES.PROFILE_EDIT}?onboarding=1`)}`,
+          `${ROUTES.LOGIN}?callbackUrl=${encodeURIComponent(`${ROUTES.INTERESTS}?onboarding=1`)}`,
         );
         return;
       }
@@ -72,7 +72,7 @@ export function RegisterForm() {
         },
         session.token,
       );
-      router.replace(`${ROUTES.PROFILE_EDIT}?onboarding=1`);
+      router.replace(`${ROUTES.INTERESTS}?onboarding=1`);
     } catch {
       // Error handled by hook
     }
