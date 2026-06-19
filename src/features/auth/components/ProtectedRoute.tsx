@@ -17,6 +17,10 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
       );
       return;
     }
+    if (!isLoading && isAuthenticated && user?.interestsCount === 0) {
+      router.replace(`${ROUTES.INTERESTS}?onboarding=1`);
+      return;
+    }
   }, [isAuthenticated, isLoading, pathname, router, user]);
 
   if (isLoading || !isAuthenticated) {

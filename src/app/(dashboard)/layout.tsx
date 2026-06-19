@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { BrandLockup } from "@/shared/components/layout/BrandLockup";
@@ -20,6 +21,17 @@ export default function DashboardLayout({
   const router = useRouter();
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Check initial scroll state
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function handleLogout() {
     logout();
@@ -29,7 +41,7 @@ export default function DashboardLayout({
   return (
     <ProtectedRoute>
       <div className="dashboard-layout">
-        <header className="dashboard-header">
+        <header className={`dashboard-header ${isScrolled ? "scrolled" : ""}`}>
           <div className="dashboard-nav">
             <Link href={ROUTES.DASHBOARD} aria-label="Ir al inicio">
               <BrandLockup />

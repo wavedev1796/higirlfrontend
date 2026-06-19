@@ -15,7 +15,6 @@ export function RegisterView() {
     <main className="register-page">
       <nav className="login-nav register-nav" aria-label="Hi Girl">
         <BrandLockup />
-        <Link href={ROUTES.LOGIN}>Iniciar sesión</Link>
       </nav>
 
       <section className="register-center" aria-label="Formulario de registro">
