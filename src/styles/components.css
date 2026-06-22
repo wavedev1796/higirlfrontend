@@ -117,7 +117,9 @@
   display: block;
 }
 
-.input-with-icon svg {
+/* Only the LEADING icon (direct child SVG) gets absolute positioning.
+   SVGs inside .input-trailing-action are excluded via the > combinator. */
+.input-with-icon > svg {
   position: absolute;
   top: 50%;
   left: 1rem;
@@ -125,9 +127,12 @@
   height: 1.15rem;
   color: var(--brand-strong);
   transform: translateY(-50%);
+  pointer-events: none;
 }
 
-.input-with-icon input {
+/* Left padding for icon — applies to both input and select */
+.input-with-icon input,
+.input-with-icon select {
   padding-left: 3rem;
 }
 
@@ -331,4 +336,70 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+}
+
+/* ── Input trailing action (e.g. password eye toggle) ──────────────── */
+
+.input-trailing-action {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Only inputs that ACTUALLY have a trailing action get right padding.
+   Applied via the .has-trailing wrapper class set in Input.tsx. */
+.has-trailing input {
+  padding-right: 2.75rem;
+}
+
+.input-eye-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 0.4rem;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.input-eye-btn:hover {
+  color: var(--brand-strong);
+  background: rgba(239, 100, 145, 0.08);
+}
+
+.input-eye-btn:focus-visible {
+  outline: 2px solid var(--brand-strong);
+  outline-offset: 2px;
+}
+
+/* ── Inline field error message ────────────────────────────────────── */
+
+.error-message {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--error);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.login-form label:has(.error-message) input,
+.login-form label:has(.error-message) select {
+  border-color: rgba(122, 31, 63, 0.55);
+  box-shadow: 0 0 0 3px rgba(122, 31, 63, 0.1);
+}
+
+/* Hide browser-native date picker indicator so our custom calendar icon is the
+   only visual affordance. The input still opens the date picker on click. */
+.login-form input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 0;
+  padding: 0;
 }
