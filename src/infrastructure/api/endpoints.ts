@@ -20,5 +20,6 @@ export const API_ENDPOINTS = {
   CATALOGS: {
     INTERESTS: "/intereses",
     CATEGORIES: "/categorias",
+    CITIES: "/ciudades",
   },
 } as const;

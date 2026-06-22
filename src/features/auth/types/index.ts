@@ -29,6 +29,8 @@ export interface RegisterRequest {
   lastName: string;
   email: string;
   password: string;
+  ciudadId: number;
+  fechaNacimiento: string;
 }
 
 export interface RegisterResponse {
