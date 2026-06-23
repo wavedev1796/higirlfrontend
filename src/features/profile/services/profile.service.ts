@@ -5,8 +5,11 @@ import type { CatalogItem, Profile, UpdateProfileRequest } from "../types";
 
 export function getProfilePhotoUrl(photo?: string | null): string | null {
   if (!photo) return null;
+  // Already a full URL — return as-is
   if (/^https?:\/\//.test(photo)) return photo;
-  return `${env.API_ORIGIN}${photo}`;
+  // Relative path (e.g. /uploads/foto.jpg) — the Next.js proxy
+  // rewrites /uploads/* to the backend, so no origin prefix needed
+  return photo.startsWith("/") ? photo : `/${photo}`;
 }
 
 export const profileService = {
