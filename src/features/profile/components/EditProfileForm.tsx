@@ -4,8 +4,9 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/shared/components/ui/Button";
+import { Toast } from "@/shared/components/ui/Toast";
 import { ROUTES } from "@/shared/constants/routes";
-import { useAuthStore } from "@/features/auth";
+import { useAuthStore, useCities } from "@/features/auth";
 import { profileService } from "../services/profile.service";
 import type {
   CivilStatus,
@@ -28,16 +29,71 @@ interface FormState {
   bio: string;
 }
 
-function toFormState(profile: Profile): FormState {
+interface CityOption {
+  id: number;
+  nombre: string;
+}
+
+function isNumericText(value: string): boolean {
+  return /^\d+$/.test(value.trim());
+}
+
+function toText(value: unknown, cities: CityOption[] = []): string {
+  if (typeof value === "string") return value;
+  if (typeof value === "number") {
+    return cities.find((city) => city.id === value)?.nombre ?? String(value);
+  }
+  if (typeof value !== "object" || value === null) return "";
+
+  const maybeCatalog = value as { id?: unknown; nombre?: unknown; name?: unknown };
+  if (typeof maybeCatalog.nombre === "string") return maybeCatalog.nombre;
+  if (typeof maybeCatalog.name === "string") return maybeCatalog.name;
+  if (typeof maybeCatalog.id === "number") {
+    return cities.find((city) => city.id === maybeCatalog.id)?.nombre ?? "";
+  }
+
+  return "";
+}
+
+function resolveCityName(value: unknown, cities: CityOption[]): string {
+  const text = toText(value, cities).trim();
+  if (!isNumericText(text)) return text;
+
+  return cities.find((city) => city.id === Number(text))?.nombre ?? text;
+}
+
+function resolveCityId(value: unknown, cities: CityOption[]): string {
+  if (typeof value === "number") return String(value);
+  if (typeof value === "string") {
+    const text = value.trim();
+    if (isNumericText(text)) return text;
+    return cities.find((city) => city.nombre === text)?.id.toString() ?? text;
+  }
+  if (typeof value !== "object" || value === null) return "";
+
+  const maybeCatalog = value as { id?: unknown; nombre?: unknown; name?: unknown };
+  if (typeof maybeCatalog.id === "number") return String(maybeCatalog.id);
+
+  const name =
+    typeof maybeCatalog.nombre === "string"
+      ? maybeCatalog.nombre
+      : typeof maybeCatalog.name === "string"
+        ? maybeCatalog.name
+        : "";
+
+  return cities.find((city) => city.nombre === name)?.id.toString() ?? name;
+}
+
+function toFormState(profile: Profile, cities: CityOption[] = []): FormState {
   return {
-    ciudad: profile.ciudad ?? "",
-    fechaNacimiento: profile.fechaNacimiento ?? "",
-    profesion: profile.profesion ?? "",
-    empresa: profile.empresa ?? "",
+    ciudad: resolveCityId(profile.ciudad, cities),
+    fechaNacimiento: toText(profile.fechaNacimiento),
+    profesion: toText(profile.profesion),
+    empresa: toText(profile.empresa),
     estadoCivil: profile.estadoCivil ?? "",
     tieneHijos: profile.tieneHijos,
     numeroHijos: profile.numeroHijos,
-    bio: profile.bio ?? "",
+    bio: toText(profile.bio),
   };
 }
 
@@ -45,6 +101,7 @@ export function EditProfileForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { refreshUser } = useAuthStore();
+  const { cities, loading: citiesLoading } = useCities();
   const isOnboarding = searchParams.get("onboarding") === "1";
   const [profile, setProfile] = useState<Profile | null>(null);
   const [form, setForm] = useState<FormState | null>(null);
@@ -52,6 +109,7 @@ export function EditProfileForm() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "saving">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     profileService
@@ -117,7 +175,8 @@ export function EditProfileForm() {
     if (profile?.foto) {
       try {
         await profileService.deletePhoto();
-        setProfile({ ...profile, foto: null });
+        setProfile({ ...profile, foto: null, updatedAt: new Date().toISOString() });
+        setSuccessMessage("Cambios guardados");
       } catch (requestError) {
         setError(
           requestError instanceof Error
@@ -134,9 +193,16 @@ export function EditProfileForm() {
 
     setStatus("saving");
     setError(null);
+    setSuccessMessage(null);
+    const selectedCityId = isNumericText(form.ciudad)
+      ? Number(form.ciudad)
+      : undefined;
+    const selectedCityName =
+      cities.find((city) => city.id === selectedCityId)?.nombre ??
+      resolveCityName(form.ciudad, cities).trim();
 
     const payload: UpdateProfileRequest = {
-      ciudad: form.ciudad.trim(),
+      ciudad: selectedCityName,
       fechaNacimiento: form.fechaNacimiento || undefined,
       profesion: form.profesion.trim(),
       empresa: form.empresa.trim(),
@@ -147,12 +213,38 @@ export function EditProfileForm() {
     };
 
     try {
-      await profileService.updateMe(payload);
+      const updatedProfile = await profileService.updateMe(payload);
+      let nextProfile: Profile = {
+        ...updatedProfile,
+        ciudad:
+          selectedCityId && selectedCityName
+            ? { id: selectedCityId, nombre: selectedCityName }
+            : updatedProfile.ciudad,
+      };
+
       if (photoFile) {
-        await profileService.uploadPhoto(photoFile);
+        const uploadedPhoto = await profileService.uploadPhoto(photoFile);
+        nextProfile = {
+          ...updatedProfile,
+          foto: uploadedPhoto.foto,
+          updatedAt: new Date().toISOString(),
+        };
       }
+
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      setPreviewUrl(null);
+      setPhotoFile(null);
+      setProfile(nextProfile);
+      setForm(toFormState(nextProfile, cities));
       await refreshUser();
-      router.replace(isOnboarding ? ROUTES.DASHBOARD : ROUTES.PROFILE);
+      setStatus("idle");
+      setSuccessMessage("Cambios guardados");
+
+      if (isOnboarding) {
+        window.setTimeout(() => {
+          router.replace(ROUTES.DASHBOARD);
+        }, 1200);
+      }
     } catch (requestError) {
       setError(
         requestError instanceof Error
@@ -172,9 +264,19 @@ export function EditProfileForm() {
   }
 
   const fullName = `${profile.nombre} ${profile.apellido}`.trim();
+  const selectedCityId = resolveCityId(form.ciudad, cities);
 
   return (
     <section className="profile-page edit-profile-page">
+      {successMessage && (
+        <Toast
+          message={successMessage}
+          detail={isOnboarding ? "Te llevaremos al feed en un momento." : undefined}
+          variant="success"
+          onClose={() => setSuccessMessage(null)}
+        />
+      )}
+
       {isOnboarding && (
         <div className="onboarding-banner">
           <span>Paso 2 de 2</span>
@@ -206,6 +308,7 @@ export function EditProfileForm() {
           <ProfileAvatar
             name={fullName}
             photo={profile.foto}
+            photoVersion={profile.updatedAt}
             previewUrl={previewUrl}
           />
           <div>
@@ -247,12 +350,20 @@ export function EditProfileForm() {
           <div className="profile-form-grid">
             <label>
               Ciudad
-              <input
-                value={form.ciudad}
-                maxLength={100}
+              <select
+                value={selectedCityId}
                 onChange={(event) => updateField("ciudad", event.target.value)}
-                placeholder="Ej. Quito"
-              />
+                disabled={citiesLoading}
+              >
+                <option value="">
+                  {citiesLoading ? "Cargando ciudades..." : "Selecciona tu ciudad"}
+                </option>
+                {cities.map((city) => (
+                  <option key={city.id} value={String(city.id)}>
+                    {city.nombre}
+                  </option>
+                ))}
+              </select>
             </label>
             <label>
               Fecha de nacimiento

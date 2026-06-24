@@ -36,10 +36,32 @@ export const Toast: React.FC<ToastProps> = ({
 
   if (!visible) return null;
 
+  const icon = variant === "success" ? "✓" : "!";
+
   return (
-    <div className={`toast-notification ${variant}`} role="alert">
-      <strong>{message}</strong>
-      {detail && <span>{detail}</span>}
+    <div
+      className={`toast-notification ${variant}`}
+      role="alert"
+      aria-live="polite"
+    >
+      <span className="toast-icon" aria-hidden="true">
+        {icon}
+      </span>
+      <span className="toast-copy">
+        <strong>{message}</strong>
+        {detail && <span>{detail}</span>}
+      </span>
+      <button
+        type="button"
+        className="toast-close"
+        aria-label="Cerrar notificación"
+        onClick={() => {
+          setVisible(false);
+          onClose?.();
+        }}
+      >
+        ×
+      </button>
     </div>
   );
 };

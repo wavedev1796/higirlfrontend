@@ -3,10 +3,23 @@ import { env } from "@/infrastructure/config/env";
 import { apiClient } from "@/lib/api";
 import type { CatalogItem, Profile, UpdateProfileRequest } from "../types";
 
-export function getProfilePhotoUrl(photo?: string | null): string | null {
+export function getProfilePhotoUrl(
+  photo?: string | null,
+  cacheKey?: string | number | null,
+): string | null {
   if (!photo) return null;
-  if (/^https?:\/\//.test(photo)) return photo;
-  return `${env.API_ORIGIN}${photo}`;
+  const url = /^https?:\/\//.test(photo) ? photo : `${env.API_ORIGIN}${photo}`;
+
+  if (!cacheKey) return url;
+
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.set("v", String(cacheKey));
+    return parsed.toString();
+  } catch {
+    const separator = url.includes("?") ? "&" : "?";
+    return `${url}${separator}v=${encodeURIComponent(String(cacheKey))}`;
+  }
 }
 
 export const profileService = {
