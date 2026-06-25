@@ -202,7 +202,7 @@ export function EditProfileForm() {
       resolveCityName(form.ciudad, cities).trim();
 
     const payload: UpdateProfileRequest = {
-      ciudad: selectedCityName,
+      ciudadId: selectedCityId,
       fechaNacimiento: form.fechaNacimiento || undefined,
       profesion: form.profesion.trim(),
       empresa: form.empresa.trim(),

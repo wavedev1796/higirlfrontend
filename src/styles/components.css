@@ -28,16 +28,16 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   white-space: nowrap;
   border: 0;
   border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 1rem;
   font-weight: 800;
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    opacity 180ms ease;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
 }
 
 .primary-button {
@@ -52,15 +52,27 @@
   background: var(--background);
 }
 
-.primary-button:hover:not(:disabled),
-.secondary-button:hover {
-  transform: translateY(-1px);
+.primary-button:hover:not(:disabled) {
+  background: var(--brand-gradient);
+  box-shadow: 0 12px 28px rgba(227, 72, 121, 0.35);
 }
 
-.primary-button:disabled {
+.secondary-button:hover:not(:disabled) {
+  background: rgba(239, 100, 145, 0.05);
+  border-color: rgba(239, 100, 145, 0.4);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
   cursor: not-allowed;
-  opacity: 0.56;
+  opacity: 0.6;
   box-shadow: none;
+}
+
+/* ── Button Loading Spinner ────────────────────────────────────────── */
+
+.button-loading-spinner {
+  animation: spin 1s linear infinite;
 }
 
 /* ── Inputs ────────────────────────────────────────────────────────── */
@@ -84,10 +96,7 @@
   background: var(--background);
   color: var(--foreground);
   appearance: none;
-  transition:
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    background 180ms ease;
+  transition: all var(--transition-base);
 }
 
 .login-form select {
@@ -103,9 +112,9 @@
 
 .login-form input:focus,
 .login-form select:focus {
-  border-color: rgba(239, 100, 145, 0.72);
+  border-color: var(--brand-strong);
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(255, 200, 221, 0.46);
+  box-shadow: 0 0 0 4px rgba(255, 200, 221, 0.25);
 }
 
 .login-form input::placeholder {
@@ -140,12 +149,12 @@
 
 .login-card {
   width: min(100%, 31rem);
-  border: 1px solid rgba(239, 100, 145, 0.16);
+  border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   padding: clamp(1.35rem, 3vw, 2.25rem);
-  background: var(--surface);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(22px);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(24px);
 }
 
 /* ── Form heading ──────────────────────────────────────────────────── */
@@ -181,13 +190,13 @@
   font-size: 0.88rem;
 }
 
-.remember-option {
-  display: inline-flex !important;
-  grid-template-columns: auto 1fr;
+.form-options label.remember-option {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem !important;
-  color: var(--muted) !important;
-  font-weight: 600 !important;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .remember-option input {
@@ -389,6 +398,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Input trailing action (e.g. password eye toggle) ──────────────── */

@@ -38,11 +38,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${spartan.variable} ${lora.variable} h-full antialiased`}>
+    <html lang="es" className={`${spartan.variable} ${lora.variable} h-full antialiased`} data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col">
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
-}
 
+}

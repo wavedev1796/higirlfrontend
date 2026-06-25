@@ -34,6 +34,7 @@ export interface Profile {
 
 export interface UpdateProfileRequest {
   ciudad?: string;
+  ciudadId?: number;
   fechaNacimiento?: string;
   profesion?: string;
   empresa?: string;

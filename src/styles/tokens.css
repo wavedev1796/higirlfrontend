@@ -13,12 +13,18 @@
   --brand-strong: #ef6491;
   --lavender: #e7c6ff;
   --violet: #d6bcfa;
+  --brand-gradient: linear-gradient(135deg, var(--brand), var(--brand-strong));
 
   /* ── Neutral palette ─────────────────────────────────────────────── */
   --background: #fff9fb;
   --foreground: #1f2937;
   --muted: #6b7280;
   --surface: rgba(255, 255, 255, 0.82);
+
+  /* ── Glassmorphism ───────────────────────────────────────────────── */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-highlight: rgba(255, 255, 255, 0.8);
 
   /* ── Semantic ────────────────────────────────────────────────────── */
   --success: #35a87e;
@@ -29,11 +35,16 @@
   /* ── Shadows ─────────────────────────────────────────────────────── */
   --shadow: 0 8px 32px rgba(227, 72, 121, 0.08);
   --shadow-lg: 0 16px 28px rgba(227, 72, 121, 0.28);
+  --shadow-glass: 0 8px 32px rgba(227, 72, 121, 0.12), inset 0 0 0 1px var(--glass-border);
 
   /* ── Radii ───────────────────────────────────────────────────────── */
   --radius-sm: 0.95rem;
   --radius-md: 1rem;
   --radius-lg: 1.65rem;
+
+  /* ── Transitions ─────────────────────────────────────────────────── */
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @theme inline {
@@ -41,4 +52,38 @@
   --color-foreground: var(--foreground);
   --font-heading: var(--font-spartan);
   --font-body: var(--font-lora);
+}
+
+/* ── Global Animations ─────────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(239, 100, 145, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 100, 145, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 100, 145, 0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
