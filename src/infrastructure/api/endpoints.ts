@@ -22,4 +22,7 @@ export const API_ENDPOINTS = {
     CATEGORIES: "/categorias",
     CITIES: "/ciudades",
   },
+  MATCHING: {
+    RECOMMENDATIONS: "/matching/recomendaciones",
+  },
 } as const;
