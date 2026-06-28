@@ -12,6 +12,8 @@ function getInitials(nombre: string, apellido: string): string {
   return `${nombre.charAt(0)}${apellido.charAt(0)}`.toUpperCase();
 }
 
+import { getProfilePhotoUrl } from "../../profile/services/profile.service";
+
 interface DiscoverCardProps {
   item: DiscoverUser;
   onIgnore: () => void;
@@ -37,7 +39,7 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
     <article className="discover-card">
       <div className="discover-card-avatar">
         {usuario.foto ? (
-          <img src={usuario.foto} alt={`Foto de ${usuario.nombre}`} />
+          <img src={getProfilePhotoUrl(usuario.foto) || undefined} alt={`Foto de ${usuario.nombre}`} />
         ) : (
           <span className="avatar-initials">
             {getInitials(usuario.nombre, usuario.apellido)}
