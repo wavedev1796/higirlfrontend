@@ -9,16 +9,22 @@ import type { Profile } from "@/features/profile";
 export default function SettingsPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     profileService
       .getMe()
       .then(setProfile)
+      .catch(() => setError("No pudimos cargar los ajustes. Inténtalo de nuevo."))
       .finally(() => setIsLoading(false));
   }, []);
 
   if (isLoading) {
     return <div className="profile-state">Cargando ajustes...</div>;
+  }
+
+  if (error) {
+    return <div className="profile-state profile-error">{error}</div>;
   }
 
   return (

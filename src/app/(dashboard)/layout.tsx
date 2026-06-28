@@ -9,6 +9,7 @@ import { ProtectedRoute, useAuthStore } from "@/features/auth";
 
 const NAV_LINKS = [
   { href: ROUTES.DASHBOARD, label: "Inicio" },
+  { href: ROUTES.DISCOVER, label: "Descubrir" },
   { href: ROUTES.PROFILE, label: "Mi Perfil" },
   { href: ROUTES.SETTINGS, label: "Ajustes" },
 ];

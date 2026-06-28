@@ -13,7 +13,7 @@
   --brand-strong: #ef6491;
   --lavender: #e7c6ff;
   --violet: #d6bcfa;
-  --brand-gradient: linear-gradient(135deg, var(--brand), var(--brand-strong));
+  --brand-gradient: linear-gradient(135deg, #b8336a, #7a1f3f);
 
   /* ── Neutral palette ─────────────────────────────────────────────── */
   --background: #fff9fb;

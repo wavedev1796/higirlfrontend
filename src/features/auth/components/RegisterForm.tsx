@@ -105,6 +105,7 @@ export function RegisterForm() {
           firstName: session.nombre ?? formData.firstName.trim(),
           lastName: session.apellido ?? formData.lastName.trim(),
           rol: (session.rol as "user" | "admin") ?? "user",
+          interestsCount: session.intereses?.length ?? 0,
         },
         session.token,
       );

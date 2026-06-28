@@ -32,3 +32,22 @@ export interface MatchingRecommendationsResponse {
   totalPages: number;
   recomendaciones: MatchingRecommendation[];
 }
+
+export interface DescubrirFilters {
+  ciudadId?: number;
+  categoriaId?: number;
+  interesId?: number;
+}
+
+export interface DiscoverUser {
+  usuario: MatchingUser;
+  compatibilidad: number;
+}
+
+export interface DiscoverResponse {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  usuarias: DiscoverUser[];
+}

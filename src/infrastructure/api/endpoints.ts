@@ -24,5 +24,7 @@ export const API_ENDPOINTS = {
   },
   MATCHING: {
     RECOMMENDATIONS: "/matching/recomendaciones",
+    DISCOVER: "/descubrir",
+    IGNORE: (id: number) => `/matching/ignorar/${id}`,
   },
 } as const;
