@@ -134,7 +134,9 @@ export function AffinityDetail({ userId }: AffinityDetailProps) {
           <div className="affinity-breakdown">
             {(Object.keys(recommendation.desglose) as Array<
               keyof MatchingBreakdown
-            >).map((key) => {
+            >)
+              .filter((key) => key !== "ciudad")
+              .map((key) => {
               const value = recommendation.desglose[key];
               const max = BREAKDOWN_MAX[key];
               const width = max ? Math.min(100, (value / max) * 100) : 0;
