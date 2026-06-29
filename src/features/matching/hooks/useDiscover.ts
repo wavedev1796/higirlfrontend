@@ -22,9 +22,16 @@ export function useDiscover(filters: DescubrirFilters): UseDiscoverResult {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const filtersRef = useRef(filters);
-  filtersRef.current = filters;
+  
+  useEffect(() => {
+    filtersRef.current = filters;
+  }, [filters]);
 
   const fetchPage = useCallback(async (targetPage: number, reset: boolean) => {
+    if (reset) {
+      setPage(1);
+      setResults([]);
+    }
     setLoading(true);
     setError(null);
     try {
@@ -44,8 +51,7 @@ export function useDiscover(filters: DescubrirFilters): UseDiscoverResult {
   }, []);
 
   useEffect(() => {
-    setPage(1);
-    setResults([]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPage(1, true);
   }, [filters, fetchPage]);
 

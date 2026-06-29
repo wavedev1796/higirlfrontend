@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ROUTES } from "@/shared/constants/routes";
 import { CompatibilityBadge } from "./CompatibilityBadge";
 import type { DiscoverUser } from "../types";
@@ -39,7 +40,13 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
     <article className="discover-card">
       <div className="discover-card-avatar">
         {usuario.foto ? (
-          <img src={getProfilePhotoUrl(usuario.foto) || undefined} alt={`Foto de ${usuario.nombre}`} />
+          <Image
+            src={getProfilePhotoUrl(usuario.foto) as string}
+            alt={`Foto de ${usuario.nombre}`}
+            width={300}
+            height={300}
+            unoptimized
+          />
         ) : (
           <span className="avatar-initials">
             {getInitials(usuario.nombre, usuario.apellido)}
@@ -77,6 +84,13 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
         >
           Ver perfil
         </Link>
+        <button
+          type="button"
+          className="btn btn-ghost"
+          aria-label={`Conectar con ${usuario.nombre}`}
+        >
+          Conectar
+        </button>
         <button
           type="button"
           className="btn btn-ghost"
