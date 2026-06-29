@@ -7,6 +7,7 @@ import { ROUTES } from "@/shared/constants/routes";
 import { profileService } from "../services/profile.service";
 import type { Profile } from "../types";
 import { ProfileAvatar } from "./ProfileAvatar";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 
 const civilStatusLabels = {
   soltera: "Soltera",
@@ -65,7 +66,24 @@ export function ProfileView() {
   }
 
   if (!profile) {
-    return <div className="profile-state">Cargando tu perfil...</div>;
+    return (
+      <div className="profile-skeleton">
+        <div className="profile-skeleton-grid">
+          <div className="profile-skeleton-card">
+            <Skeleton style={{ width: "5rem", height: "5rem", borderRadius: "9999px" }} />
+            <Skeleton style={{ height: "1.25rem", width: "60%" }} />
+            <Skeleton style={{ height: "1rem", width: "45%" }} />
+            <Skeleton style={{ height: "3rem" }} />
+          </div>
+          <div className="profile-skeleton-card">
+            <Skeleton style={{ height: "1.25rem", width: "40%" }} />
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} style={{ height: "1rem" }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const fullName = `${profile.nombre} ${profile.apellido}`.trim();

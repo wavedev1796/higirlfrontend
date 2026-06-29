@@ -1,16 +1,9 @@
-/**
- * Auth feature — RegisterForm component.
- *
- * Handles registration form state, client-side validation, and submission.
- * Includes: password visibility toggle, inline field errors, city selector
- * (from API) and date-of-birth with age ≥ 18 validation.
- */
-
 "use client";
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { User, Mail, Lock, Eye, EyeOff, Calendar, MapPin } from "lucide-react";
 import { useRegister } from "../hooks/useRegister";
 import { useLogin } from "../hooks/useLogin";
 import { useCities } from "../hooks/useCities";
@@ -21,7 +14,6 @@ import {
 import { useAuthStore } from "../providers/AuthProvider";
 import { Button } from "@/shared/components/ui/Button";
 import { Input } from "@/shared/components/ui/Input";
-import { FieldIcon } from "@/shared/components/icons/FieldIcon";
 import { ROUTES } from "@/shared/constants/routes";
 
 export function RegisterForm() {
@@ -136,7 +128,7 @@ export function RegisterForm() {
           value={formData.firstName}
           onChange={handleChange}
           onBlur={handleBlur}
-          icon={<FieldIcon name="user" />}
+          icon={<User size={20} aria-hidden />}
           error={getFieldError("firstName")}
           autoComplete="given-name"
         />
@@ -148,7 +140,7 @@ export function RegisterForm() {
           value={formData.lastName}
           onChange={handleChange}
           onBlur={handleBlur}
-          icon={<FieldIcon name="user" />}
+          icon={<User size={20} aria-hidden />}
           error={getFieldError("lastName")}
           autoComplete="family-name"
         />
@@ -164,7 +156,7 @@ export function RegisterForm() {
         value={formData.email}
         onChange={handleChange}
         onBlur={handleBlur}
-        icon={<FieldIcon name="mail" />}
+        icon={<Mail size={20} aria-hidden />}
         error={getFieldError("email")}
         autoComplete="email"
       />
@@ -180,7 +172,7 @@ export function RegisterForm() {
           value={formData.password}
           onChange={handleChange}
           onBlur={handleBlur}
-          icon={<FieldIcon name="lock" />}
+          icon={<Lock size={20} aria-hidden />}
           error={getFieldError("password")}
           autoComplete="new-password"
           trailingAction={
@@ -190,7 +182,7 @@ export function RegisterForm() {
               aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               onClick={() => setShowPassword((v) => !v)}
             >
-              <FieldIcon name={showPassword ? "eye-off" : "eye"} size={18} />
+              {showPassword ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
             </button>
           }
         />
@@ -203,7 +195,7 @@ export function RegisterForm() {
           value={formData.confirmPassword}
           onChange={handleChange}
           onBlur={handleBlur}
-          icon={<FieldIcon name="lock" />}
+          icon={<Lock size={20} aria-hidden />}
           error={getFieldError("confirmPassword")}
           autoComplete="new-password"
           trailingAction={
@@ -213,7 +205,7 @@ export function RegisterForm() {
               aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               onClick={() => setShowConfirmPassword((v) => !v)}
             >
-              <FieldIcon name={showConfirmPassword ? "eye-off" : "eye"} size={18} />
+              {showConfirmPassword ? <EyeOff size={18} aria-hidden /> : <Eye size={18} aria-hidden />}
             </button>
           }
         />
@@ -230,7 +222,7 @@ export function RegisterForm() {
           value={formData.fechaNacimiento}
           onChange={handleChange}
           onBlur={handleBlur}
-          icon={<FieldIcon name="calendar" />}
+          icon={<Calendar size={20} aria-hidden />}
           error={getFieldError("fechaNacimiento")}
         />
 
@@ -238,7 +230,7 @@ export function RegisterForm() {
         <label htmlFor="reg-ciudadId">
           Ciudad
           <span className="input-with-icon">
-            <FieldIcon name="map-pin" />
+            <MapPin size={20} aria-hidden />
             <select
               id="reg-ciudadId"
               name="ciudadId"
@@ -288,4 +280,3 @@ export function RegisterForm() {
     </form>
   );
 }
-

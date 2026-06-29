@@ -1,6 +1,7 @@
 "use client";
 
 import { DiscoverCard } from "./DiscoverCard";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 import type { DiscoverUser } from "../types";
 
 interface DiscoverListProps {
@@ -23,7 +24,19 @@ export function DiscoverList({
   onLoadMore,
 }: DiscoverListProps) {
   if (loading && results.length === 0) {
-    return <div className="profile-state">Buscando chicas...</div>;
+    return (
+      <div className="discover-grid">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="discover-skeleton-card">
+            <Skeleton style={{ aspectRatio: "1", borderRadius: "1.35rem" }} />
+            <Skeleton style={{ height: "1.1rem", width: "65%" }} />
+            <Skeleton style={{ height: "0.85rem", width: "45%" }} />
+            <Skeleton style={{ height: "0.85rem" }} />
+            <Skeleton style={{ height: "0.85rem", width: "80%" }} />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (error) {
