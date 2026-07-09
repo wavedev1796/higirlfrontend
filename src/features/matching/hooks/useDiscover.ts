@@ -10,10 +10,12 @@ interface UseDiscoverResult {
   error: string | null;
   page: number;
   totalPages: number;
-  loadMore: () => void;
+  goToPage: (nextPage: number) => void;
   refresh: () => void;
   ignore: (userId: number) => Promise<void>;
 }
+
+const DISCOVER_PAGE_SIZE = 5;
 
 export function useDiscover(filters: DescubrirFilters): UseDiscoverResult {
   const [results, setResults] = useState<DiscoverUser[]>([]);
@@ -27,20 +29,16 @@ export function useDiscover(filters: DescubrirFilters): UseDiscoverResult {
     filtersRef.current = filters;
   }, [filters]);
 
-  const fetchPage = useCallback(async (targetPage: number, reset: boolean) => {
-    if (reset) {
-      setPage(1);
-      setResults([]);
-    }
+  const fetchPage = useCallback(async (targetPage: number) => {
     setLoading(true);
     setError(null);
     try {
       const data = await matchingService.getDiscover(
         filtersRef.current,
         targetPage,
-        10,
+        DISCOVER_PAGE_SIZE,
       );
-      setResults((prev) => (reset ? data.usuarias : [...prev, ...data.usuarias]));
+      setResults(data.usuarias);
       setPage(data.page);
       setTotalPages(data.totalPages);
     } catch {
@@ -52,34 +50,40 @@ export function useDiscover(filters: DescubrirFilters): UseDiscoverResult {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchPage(1, true);
+    setResults([]);
+    setPage(1);
+    fetchPage(1);
   }, [filters, fetchPage]);
 
-  const loadMore = useCallback(() => {
-    if (page < totalPages && !loading) {
-      fetchPage(page + 1, false);
-    }
-  }, [page, totalPages, loading, fetchPage]);
+  const goToPage = useCallback(
+    (nextPage: number) => {
+      if (loading || nextPage < 1 || nextPage > totalPages || nextPage === page) {
+        return;
+      }
+      fetchPage(nextPage);
+    },
+    [page, totalPages, loading, fetchPage],
+  );
 
   const refresh = useCallback(() => {
-    setPage(1);
-    setResults([]);
-    fetchPage(1, true);
-  }, [fetchPage]);
+    fetchPage(page);
+  }, [page, fetchPage]);
 
   const ignore = useCallback(
     async (userId: number) => {
       await matchingService.ignoreUser(userId);
-      setResults((prev) => {
-        const next = prev.filter((item) => item.usuario.id !== userId);
-        if (next.length < 3 && page < totalPages) {
-          fetchPage(page + 1, false);
-        }
-        return next;
-      });
+      const nextResults = results.filter((item) => item.usuario.id !== userId);
+      setResults(nextResults);
+
+      if (nextResults.length === 0 && page > 1) {
+        fetchPage(page - 1);
+        return;
+      }
+
+      fetchPage(page);
     },
-    [page, totalPages, fetchPage],
+    [results, page, fetchPage],
   );
 
-  return { results, loading, error, page, totalPages, loadMore, refresh, ignore };
+  return { results, loading, error, page, totalPages, goToPage, refresh, ignore };
 }

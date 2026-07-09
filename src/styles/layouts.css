@@ -589,6 +589,46 @@
   color: var(--error);
 }
 
+.suggestion-pagination {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) 2.25rem;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(122, 31, 63, 0.1);
+  padding-top: 0.85rem;
+}
+
+.suggestion-pagination button {
+  display: inline-grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 1px solid rgba(122, 31, 63, 0.14);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--brand-strong);
+  cursor: pointer;
+  transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.suggestion-pagination button:hover:not(:disabled) {
+  border-color: rgba(239, 100, 145, 0.4);
+  background: #fff;
+}
+
+.suggestion-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.suggestion-pagination span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+}
+
 .compatibility-badge {
   display: inline-flex;
   align-items: center;
@@ -1917,9 +1957,45 @@
   font-weight: 800;
 }
 
-.discover-load-more {
-  display: flex;
+.discover-pagination {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, auto) 2.5rem;
+  align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.discover-pagination button {
+  display: inline-grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgba(122, 31, 63, 0.14);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--brand-strong);
+  cursor: pointer;
+  transition: background var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+}
+
+.discover-pagination button:hover:not(:disabled) {
+  border-color: rgba(239, 100, 145, 0.4);
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+.discover-pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+}
+
+.discover-pagination span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .affinity-grid {
@@ -2263,6 +2339,333 @@
 @media (max-width: 768px) {
   .profile-skeleton-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Connections */
+
+.connections-page {
+  width: min(100%, 58rem);
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+.connections-header {
+  display: flex;
+  min-height: 8.5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(122, 31, 63, 0.12);
+  padding-bottom: 1.5rem;
+}
+
+.connections-header h1 {
+  margin: 0.15rem 0 0.35rem;
+  color: var(--heading-dark);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.connections-header p {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.connections-header .connections-eyebrow {
+  color: var(--brand-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sync-indicator {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.connections-tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid rgba(122, 31, 63, 0.12);
+}
+
+.connections-tabs a {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: 0.45rem;
+  border-bottom: 2px solid transparent;
+  padding: 0 1rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.connections-tabs a:hover,
+.connections-tabs a.active {
+  color: var(--brand-strong);
+}
+
+.connections-tabs a.active {
+  border-bottom-color: var(--brand-strong);
+}
+
+.request-mode {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin: 1.5rem 0 0.75rem;
+  border: 1px solid rgba(122, 31, 63, 0.12);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.request-mode button {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: calc(var(--radius-sm) - 2px);
+  padding: 0 0.8rem;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.request-mode button.active {
+  background: #fff;
+  color: var(--heading-dark);
+  box-shadow: 0 2px 10px rgba(122, 31, 63, 0.1);
+}
+
+.request-mode button span {
+  display: inline-grid;
+  min-width: 1.35rem;
+  min-height: 1.35rem;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(239, 100, 145, 0.12);
+  color: var(--brand-strong);
+  font-size: 0.72rem;
+}
+
+.connections-list {
+  display: grid;
+  margin-top: 0.75rem;
+  border-top: 1px solid rgba(122, 31, 63, 0.1);
+}
+
+.connection-row {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 6.4rem;
+  border-bottom: 1px solid rgba(122, 31, 63, 0.1);
+  padding: 0.9rem 0.25rem;
+}
+
+.connection-avatar {
+  display: grid;
+  width: 3.65rem;
+  height: 3.65rem;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(122, 31, 63, 0.12);
+  border-radius: 50%;
+  background: #f8d8ea;
+  color: var(--brand-strong);
+  font-weight: 800;
+}
+
+.connection-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.connection-person {
+  min-width: 0;
+}
+
+.connection-person h2 {
+  overflow: hidden;
+  margin: 0;
+  color: var(--heading-dark);
+  font-size: 1rem;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.connection-person p,
+.connection-person span {
+  overflow: hidden;
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.connection-person span {
+  display: block;
+  font-size: 0.78rem;
+}
+
+.request-actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.connection-icon-button {
+  display: inline-grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgba(122, 31, 63, 0.14);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color var(--transition-base), background var(--transition-base), color var(--transition-base);
+}
+
+.connection-icon-button.accept {
+  border-color: rgba(31, 138, 102, 0.25);
+  color: #197454;
+}
+
+.connection-icon-button.accept:hover {
+  background: #eaf8f2;
+}
+
+.connection-icon-button.reject:hover {
+  background: #fff0f4;
+  color: var(--brand-strong);
+}
+
+.connection-icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.request-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #80642d;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.connections-state {
+  display: grid;
+  min-height: 19rem;
+  place-items: center;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.connections-state h2,
+.connections-state p {
+  margin: 0;
+}
+
+.connections-state h2 {
+  color: var(--heading-dark);
+  font-size: 1.15rem;
+}
+
+.connections-state button {
+  border: 0;
+  background: transparent;
+  color: var(--brand-strong);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.connections-state.error {
+  color: var(--error);
+}
+
+.connections-empty-icon {
+  display: inline-grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(239, 100, 145, 0.1);
+  color: var(--brand-strong);
+}
+
+@media (max-width: 600px) {
+  .connections-page {
+    padding-top: 0.75rem;
+  }
+
+  .connections-header {
+    min-height: 7rem;
+    align-items: flex-start;
+  }
+
+  .connections-tabs {
+    overflow-x: auto;
+  }
+
+  .connections-tabs a {
+    flex: 1 0 auto;
+    justify-content: center;
+    padding: 0 0.65rem;
+    font-size: 0.88rem;
+  }
+
+  .request-mode {
+    display: flex;
+  }
+
+  .request-mode button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .connection-row {
+    grid-template-columns: 3.35rem minmax(0, 1fr) auto;
+    gap: 0.7rem;
+  }
+
+  .connection-avatar {
+    width: 3.1rem;
+    height: 3.1rem;
+    font-size: 0.84rem;
+  }
+
+  .request-actions {
+    gap: 0.25rem;
+  }
+
+  .connection-icon-button {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .request-status {
+    width: 2.5rem;
+    overflow: hidden;
+    font-size: 0;
+  }
+
+  .request-status svg {
+    width: 2.5rem;
   }
 }
 

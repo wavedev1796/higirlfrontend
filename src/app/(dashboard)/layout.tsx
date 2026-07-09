@@ -3,7 +3,7 @@
 import { useState, useEffect, ViewTransition } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Compass, User, Settings } from "lucide-react";
+import { Home, Compass, User, Settings, UsersRound } from "lucide-react";
 import { BrandLockup } from "@/shared/components/layout/BrandLockup";
 import { ROUTES } from "@/shared/constants/routes";
 import { ProtectedRoute, useAuthStore } from "@/features/auth";
@@ -11,6 +11,7 @@ import { ProtectedRoute, useAuthStore } from "@/features/auth";
 const NAV_LINKS = [
   { href: ROUTES.DASHBOARD, label: "Inicio", Icon: Home },
   { href: ROUTES.DISCOVER, label: "Descubrir", Icon: Compass },
+  { href: ROUTES.REQUESTS, label: "Conexiones", Icon: UsersRound },
   { href: ROUTES.PROFILE, label: "Mi Perfil", Icon: User },
   { href: ROUTES.SETTINGS, label: "Ajustes", Icon: Settings },
 ];
@@ -39,6 +40,13 @@ export default function DashboardLayout({
     router.replace(ROUTES.LOGIN);
   }
 
+  function isNavActive(href: string) {
+    if (href === ROUTES.REQUESTS) {
+      return pathname === ROUTES.REQUESTS || pathname === ROUTES.CONNECTIONS;
+    }
+    return pathname === href;
+  }
+
   return (
     <ProtectedRoute>
       <div className="dashboard-layout">
@@ -55,7 +63,7 @@ export default function DashboardLayout({
                 <Link
                   key={href}
                   href={href}
-                  className={pathname === href ? "nav-active" : ""}
+                  className={isNavActive(href) ? "nav-active" : ""}
                 >
                   <Icon size={15} aria-hidden />
                   {label}
@@ -82,7 +90,7 @@ export default function DashboardLayout({
             <Link
               key={href}
               href={href}
-              className={`bottom-nav-link${pathname === href ? " nav-active" : ""}`}
+              className={`bottom-nav-link${isNavActive(href) ? " nav-active" : ""}`}
             >
               <Icon size={20} aria-hidden />
               <span>{label}</span>

@@ -8,7 +8,7 @@ import { useDiscoverFilters } from "@/features/matching/hooks/useDiscoverFilters
 
 export default function DescubrirPage() {
   const { filters, setFilter, resetFilters } = useDiscoverFilters();
-  const { results, loading, error, page, totalPages, loadMore, ignore } =
+  const { results, loading, error, page, totalPages, goToPage, ignore } =
     useDiscover(filters);
 
   return (
@@ -32,7 +32,7 @@ export default function DescubrirPage() {
           page={page}
           totalPages={totalPages}
           onIgnore={ignore}
-          onLoadMore={loadMore}
+          onPageChange={goToPage}
         />
       </section>
     </ProtectedRoute>

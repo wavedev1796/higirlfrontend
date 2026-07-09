@@ -27,4 +27,8 @@ export const API_ENDPOINTS = {
     DISCOVER: "/descubrir",
     IGNORE: (id: number) => `/matching/ignorar/${id}`,
   },
+  CONNECTIONS: {
+    LIST: "/conexiones",
+    DETAIL: (id: number) => `/conexiones/${id}`,
+  },
 } as const;

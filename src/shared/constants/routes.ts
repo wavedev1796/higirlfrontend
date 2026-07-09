@@ -17,6 +17,8 @@ export const ROUTES = {
   AFFINITY_DETAIL: (id: number | string) => `/afinidad/${id}`,
   SETTINGS: "/ajustes",
   DISCOVER: "/descubrir",
+  REQUESTS: "/solicitudes",
+  CONNECTIONS: "/conexiones",
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
 } as const;

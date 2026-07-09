@@ -11,7 +11,7 @@ interface UseRecommendationsResult {
   error: string | null;
 }
 
-export function useRecommendations(limit = 3): UseRecommendationsResult {
+export function useRecommendations(limit = 5): UseRecommendationsResult {
   const [recommendations, setRecommendations] = useState<MatchingRecommendation[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);

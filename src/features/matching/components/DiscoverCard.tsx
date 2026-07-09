@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ROUTES } from "@/shared/constants/routes";
+import { connectionsService } from "@/features/connections";
+import { ApiError } from "@/lib/api";
+import { Toast } from "@/shared/components/ui/Toast";
 import { CompatibilityBadge } from "./CompatibilityBadge";
 import type { DiscoverUser } from "../types";
 
@@ -24,6 +27,9 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
   const { usuario, compatibilidad } = item;
   const [isIgnoring, setIsIgnoring] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [connectionSent, setConnectionSent] = useState(false);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   if (hidden) return null;
 
@@ -33,11 +39,34 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
     onIgnore();
   }
 
+  async function handleConnect() {
+    setIsConnecting(true);
+    setConnectionError(null);
+    try {
+      await connectionsService.send(usuario.id);
+      setConnectionSent(true);
+    } catch (reason: unknown) {
+      setConnectionError(
+        reason instanceof ApiError
+          ? reason.message
+          : "No se pudo enviar la solicitud.",
+      );
+    } finally {
+      setIsConnecting(false);
+    }
+  }
+
   const visibleInterests = usuario.intereses.slice(0, MAX_INTERESTS);
   const extraCount = usuario.intereses.length - MAX_INTERESTS;
 
   return (
     <article className="discover-card">
+      {connectionError && (
+        <Toast
+          message={connectionError}
+          onClose={() => setConnectionError(null)}
+        />
+      )}
       <div className="discover-card-avatar">
         {usuario.foto ? (
           <Image
@@ -87,9 +116,15 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
         <button
           type="button"
           className="btn btn-ghost"
+          onClick={handleConnect}
+          disabled={isConnecting || connectionSent}
           aria-label={`Conectar con ${usuario.nombre}`}
         >
-          Conectar
+          {connectionSent
+            ? "Solicitud enviada"
+            : isConnecting
+              ? "Enviando..."
+              : "Conectar"}
         </button>
         <button
           type="button"

@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DiscoverCard } from "./DiscoverCard";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import type { DiscoverUser } from "../types";
@@ -11,7 +12,7 @@ interface DiscoverListProps {
   page: number;
   totalPages: number;
   onIgnore: (userId: number) => Promise<void>;
-  onLoadMore: () => void;
+  onPageChange: (nextPage: number) => void;
 }
 
 export function DiscoverList({
@@ -21,12 +22,12 @@ export function DiscoverList({
   page,
   totalPages,
   onIgnore,
-  onLoadMore,
+  onPageChange,
 }: DiscoverListProps) {
   if (loading && results.length === 0) {
     return (
       <div className="discover-grid">
-        {[...Array(6)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <div key={i} className="discover-skeleton-card">
             <Skeleton style={{ aspectRatio: "1", borderRadius: "1.35rem" }} />
             <Skeleton style={{ height: "1.1rem", width: "65%" }} />
@@ -47,7 +48,7 @@ export function DiscoverList({
     return (
       <div className="discover-empty">
         <p>No encontramos chicas con esos filtros.</p>
-        <p>Prueba cambiando o quitando algún filtro.</p>
+        <p>Prueba cambiando o quitando algun filtro.</p>
       </div>
     );
   }
@@ -64,15 +65,26 @@ export function DiscoverList({
         ))}
       </div>
 
-      {page < totalPages && (
-        <div className="discover-load-more">
+      {totalPages > 1 && (
+        <div className="discover-pagination" aria-label="Paginacion de descubrir">
           <button
             type="button"
-            className="btn btn-secondary"
-            onClick={onLoadMore}
-            disabled={loading}
+            onClick={() => onPageChange(page - 1)}
+            disabled={loading || page <= 1}
+            aria-label="Pagina anterior"
           >
-            {loading ? "Cargando..." : "Cargar más"}
+            <ChevronLeft aria-hidden size={18} />
+          </button>
+          <span>
+            Pagina {page} de {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => onPageChange(page + 1)}
+            disabled={loading || page >= totalPages}
+            aria-label="Pagina siguiente"
+          >
+            <ChevronRight aria-hidden size={18} />
           </button>
         </div>
       )}

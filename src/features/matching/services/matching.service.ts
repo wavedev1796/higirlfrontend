@@ -29,7 +29,7 @@ function discoverEndpoint(
 }
 
 export const matchingService = {
-  getRecommendations: (page = 1, limit = 10) =>
+  getRecommendations: (page = 1, limit = 5) =>
     apiClient.get<MatchingRecommendationsResponse>(
       recommendationsEndpoint(page, limit),
     ),
@@ -46,7 +46,7 @@ export const matchingService = {
     );
   },
 
-  getDiscover: (filters: DescubrirFilters = {}, page = 1, limit = 10) =>
+  getDiscover: (filters: DescubrirFilters = {}, page = 1, limit = 5) =>
     apiClient.get<DiscoverResponse>(discoverEndpoint(filters, page, limit)),
 
   ignoreUser: (userId: number) =>
