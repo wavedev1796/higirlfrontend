@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useCities } from "@/features/auth";
 import { ROUTES } from "@/shared/constants/routes";
 import { profileService } from "../services/profile.service";
 import type { Profile } from "../types";
 import { ProfileAvatar } from "./ProfileAvatar";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 
 const civilStatusLabels = {
   soltera: "Soltera",
@@ -15,7 +17,34 @@ const civilStatusLabels = {
   viuda: "Viuda",
 };
 
+interface CityOption {
+  id: number;
+  nombre: string;
+}
+
+function isNumericText(value: string): boolean {
+  return /^\d+$/.test(value.trim());
+}
+
+function profileText(value: unknown, cities: CityOption[]): string {
+  if (typeof value === "string") return value;
+  if (typeof value === "number") {
+    return cities.find((city) => city.id === value)?.nombre ?? "";
+  }
+  if (typeof value !== "object" || value === null) return "";
+
+  const maybeCatalog = value as { id?: unknown; nombre?: unknown; name?: unknown };
+  if (typeof maybeCatalog.nombre === "string") return maybeCatalog.nombre;
+  if (typeof maybeCatalog.name === "string") return maybeCatalog.name;
+  if (typeof maybeCatalog.id === "number") {
+    return cities.find((city) => city.id === maybeCatalog.id)?.nombre ?? "";
+  }
+
+  return "";
+}
+
 export function ProfileView() {
+  const { cities, loading: citiesLoading } = useCities();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,10 +66,34 @@ export function ProfileView() {
   }
 
   if (!profile) {
-    return <div className="profile-state">Cargando tu perfil...</div>;
+    return (
+      <div className="profile-skeleton">
+        <div className="profile-skeleton-grid">
+          <div className="profile-skeleton-card">
+            <Skeleton style={{ width: "5rem", height: "5rem", borderRadius: "9999px" }} />
+            <Skeleton style={{ height: "1.25rem", width: "60%" }} />
+            <Skeleton style={{ height: "1rem", width: "45%" }} />
+            <Skeleton style={{ height: "3rem" }} />
+          </div>
+          <div className="profile-skeleton-card">
+            <Skeleton style={{ height: "1.25rem", width: "40%" }} />
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} style={{ height: "1rem" }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const fullName = `${profile.nombre} ${profile.apellido}`.trim();
+  const ciudad = profileText(profile.ciudad, cities);
+  const rawCiudad = profileText(profile.ciudad, []);
+  const cityLabel =
+    ciudad ||
+    (rawCiudad && isNumericText(rawCiudad) && citiesLoading
+      ? "Cargando ciudad..."
+      : "Sin completar");
 
   return (
     <section className="profile-page">
@@ -60,7 +113,11 @@ export function ProfileView() {
 
       <div className="profile-grid">
         <article className="profile-summary-card">
-          <ProfileAvatar name={fullName} photo={profile.foto} />
+          <ProfileAvatar
+            name={fullName}
+            photo={profile.foto}
+            photoVersion={profile.updatedAt}
+          />
           <div>
             <h2>{fullName}</h2>
             <p>@{profile.usuario}</p>
@@ -80,7 +137,7 @@ export function ProfileView() {
           <dl className="profile-details">
             <div>
               <dt>Ciudad</dt>
-              <dd>{profile.ciudad || "Sin completar"}</dd>
+              <dd>{cityLabel}</dd>
             </div>
             <div>
               <dt>Profesión</dt>

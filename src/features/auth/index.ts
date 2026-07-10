@@ -18,6 +18,8 @@ export { AuthProvider, useAuthStore } from "./providers/AuthProvider";
 // Hooks
 export { useLogin } from "./hooks/useLogin";
 export { useRegister } from "./hooks/useRegister";
+export { useCities } from "./hooks/useCities";
+export { useRegisterValidation } from "./hooks/useRegisterValidation";
 
 // Types
 export type {

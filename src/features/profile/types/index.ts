@@ -17,7 +17,7 @@ export interface Profile {
   apellido: string;
   email: string;
   usuario: string;
-  ciudad?: string | null;
+  ciudad?: string | number | CatalogItem | null;
   fechaNacimiento?: string | null;
   profesion?: string | null;
   empresa?: string | null;
@@ -34,6 +34,7 @@ export interface Profile {
 
 export interface UpdateProfileRequest {
   ciudad?: string;
+  ciudadId?: number;
   fechaNacimiento?: string;
   profesion?: string;
   empresa?: string;

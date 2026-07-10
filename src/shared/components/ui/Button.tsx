@@ -1,20 +1,17 @@
-/**
- * Shared UI — Button component.
- *
- * Supports `primary` and `secondary` variants with a loading state.
- */
-
 import React from "react";
+import { Loader2 } from "lucide-react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary";
   isLoading?: boolean;
+  icon?: React.ReactNode;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   children,
   variant = "primary",
   isLoading,
+  icon,
   className = "",
   disabled,
   ...props
@@ -27,7 +24,14 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={isLoading || disabled}
       {...props}
     >
-      {isLoading ? "Cargando..." : children}
+      {isLoading ? (
+        <Loader2 className="button-loading-spinner" size={20} aria-hidden />
+      ) : (
+        <>
+          {icon && <span className="button-icon">{icon}</span>}
+          {children}
+        </>
+      )}
     </button>
   );
 };

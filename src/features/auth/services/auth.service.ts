@@ -13,6 +13,8 @@ interface RegisterUserData {
   lastName: string;
   email: string;
   password: string;
+  ciudadId: number;
+  fechaNacimiento: string;
 }
 
 export const authService = {

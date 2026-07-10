@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ViewTransition } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { Home, Compass, User, Settings } from "lucide-react";
 import { BrandLockup } from "@/shared/components/layout/BrandLockup";
 import { ROUTES } from "@/shared/constants/routes";
 import { ProtectedRoute, useAuthStore } from "@/features/auth";
 
 const NAV_LINKS = [
-  { href: ROUTES.DASHBOARD, label: "Inicio" },
-  { href: ROUTES.PROFILE, label: "Mi Perfil" },
-  { href: ROUTES.SETTINGS, label: "Ajustes" },
+  { href: ROUTES.DASHBOARD, label: "Inicio", Icon: Home },
+  { href: ROUTES.DISCOVER, label: "Descubrir", Icon: Compass },
+  { href: ROUTES.PROFILE, label: "Mi Perfil", Icon: User },
+  { href: ROUTES.SETTINGS, label: "Ajustes", Icon: Settings },
 ];
 
 export default function DashboardLayout({
@@ -27,9 +29,8 @@ export default function DashboardLayout({
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial scroll state
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -41,19 +42,23 @@ export default function DashboardLayout({
   return (
     <ProtectedRoute>
       <div className="dashboard-layout">
-        <header className={`dashboard-header ${isScrolled ? "scrolled" : ""}`}>
+        <header
+          className={`dashboard-header ${isScrolled ? "scrolled" : ""}`}
+          style={{ viewTransitionName: "dashboard-header" }}
+        >
           <div className="dashboard-nav">
             <Link href={ROUTES.DASHBOARD} aria-label="Ir al inicio">
               <BrandLockup />
             </Link>
-            <nav>
-              {NAV_LINKS.map((link) => (
+            <nav aria-label="Navegación principal">
+              {NAV_LINKS.map(({ href, label, Icon }) => (
                 <Link
-                  key={link.href}
-                  href={link.href}
-                  className={pathname === link.href ? "nav-active" : ""}
+                  key={href}
+                  href={href}
+                  className={pathname === href ? "nav-active" : ""}
                 >
-                  {link.label}
+                  <Icon size={15} aria-hidden />
+                  {label}
                 </Link>
               ))}
             </nav>
@@ -65,7 +70,25 @@ export default function DashboardLayout({
             </div>
           </div>
         </header>
-        <main className="dashboard-main">{children}</main>
+
+        <main className="dashboard-main">
+          <ViewTransition enter="page-enter" default="none">
+            {children}
+          </ViewTransition>
+        </main>
+
+        <nav className="bottom-nav" aria-label="Navegación móvil">
+          {NAV_LINKS.map(({ href, label, Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`bottom-nav-link${pathname === href ? " nav-active" : ""}`}
+            >
+              <Icon size={20} aria-hidden />
+              <span>{label}</span>
+            </Link>
+          ))}
+        </nav>
       </div>
     </ProtectedRoute>
   );

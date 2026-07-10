@@ -3,6 +3,7 @@ import { getProfilePhotoUrl } from "../services/profile.service";
 interface ProfileAvatarProps {
   name: string;
   photo?: string | null;
+  photoVersion?: string | number | null;
   previewUrl?: string | null;
   className?: string;
 }
@@ -10,10 +11,11 @@ interface ProfileAvatarProps {
 export function ProfileAvatar({
   name,
   photo,
+  photoVersion,
   previewUrl,
   className = "",
 }: ProfileAvatarProps) {
-  const imageUrl = previewUrl ?? getProfilePhotoUrl(photo);
+  const imageUrl = previewUrl ?? getProfilePhotoUrl(photo, photoVersion);
   const initials = name
     .split(" ")
     .filter(Boolean)

@@ -20,5 +20,11 @@ export const API_ENDPOINTS = {
   CATALOGS: {
     INTERESTS: "/intereses",
     CATEGORIES: "/categorias",
+    CITIES: "/ciudades",
+  },
+  MATCHING: {
+    RECOMMENDATIONS: "/matching/recomendaciones",
+    DISCOVER: "/descubrir",
+    IGNORE: (id: number) => `/matching/ignorar/${id}`,
   },
 } as const;

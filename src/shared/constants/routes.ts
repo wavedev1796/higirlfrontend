@@ -13,7 +13,10 @@ export const ROUTES = {
   PROFILE: "/profile",
   PROFILE_EDIT: "/profile/edit",
   INTERESTS: "/intereses",
+  AFFINITY: "/afinidad",
+  AFFINITY_DETAIL: (id: number | string) => `/afinidad/${id}`,
   SETTINGS: "/ajustes",
+  DISCOVER: "/descubrir",
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
 } as const;

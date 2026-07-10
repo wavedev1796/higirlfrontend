@@ -5,10 +5,8 @@
  * The `(auth)/register/page.tsx` is a thin wrapper around this.
  */
 
-import Link from "next/link";
 import { RegisterForm } from "./RegisterForm";
 import { BrandLockup } from "@/shared/components/layout/BrandLockup";
-import { ROUTES } from "@/shared/constants/routes";
 
 export function RegisterView() {
   return (
