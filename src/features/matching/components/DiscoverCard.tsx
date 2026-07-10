@@ -22,9 +22,14 @@ import { getProfilePhotoUrl } from "../../profile/services/profile.service";
 interface DiscoverCardProps {
   item: DiscoverUser;
   onIgnore: () => void;
+  alreadyConnected?: boolean;
 }
 
-export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
+export function DiscoverCard({
+  item,
+  onIgnore,
+  alreadyConnected = false,
+}: DiscoverCardProps) {
   const { usuario, compatibilidad } = item;
   const [isIgnoring, setIsIgnoring] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -57,6 +62,10 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
       setIsConnecting(false);
     }
   }
+
+  // alreadyConnected llega async (fetch de conexiones); se combina en render
+  // para que el botón quede deshabilitado aunque los datos lleguen después.
+  const sent = connectionSent || alreadyConnected;
 
   const visibleInterests = usuario.intereses.slice(0, MAX_INTERESTS);
   const extraCount = usuario.intereses.length - MAX_INTERESTS;
@@ -119,10 +128,10 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
           type="button"
           className="btn btn-ghost"
           onClick={handleConnect}
-          disabled={isConnecting || connectionSent}
+          disabled={isConnecting || sent}
           aria-label={`Conectar con ${usuario.nombre}`}
         >
-          {connectionSent
+          {sent
             ? "Solicitud enviada"
             : isConnecting
               ? "Enviando..."

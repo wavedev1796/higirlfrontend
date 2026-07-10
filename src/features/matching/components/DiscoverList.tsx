@@ -13,6 +13,7 @@ interface DiscoverListProps {
   totalPages: number;
   onIgnore: (userId: number) => Promise<void>;
   onPageChange: (nextPage: number) => void;
+  connectedIds: Set<number>;
 }
 
 export function DiscoverList({
@@ -23,6 +24,7 @@ export function DiscoverList({
   totalPages,
   onIgnore,
   onPageChange,
+  connectedIds,
 }: DiscoverListProps) {
   if (loading && results.length === 0) {
     return (
@@ -61,6 +63,7 @@ export function DiscoverList({
             key={item.usuario.id}
             item={item}
             onIgnore={() => onIgnore(item.usuario.id)}
+            alreadyConnected={connectedIds.has(item.usuario.id)}
           />
         ))}
       </div>

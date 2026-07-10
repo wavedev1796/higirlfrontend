@@ -3,10 +3,12 @@ import { API_ENDPOINTS } from "@/infrastructure/api/endpoints";
 import type { Connection, ConnectionStatus } from "../types";
 
 export const connectionsService = {
-  list(status: ConnectionStatus): Promise<Connection[]> {
-    const query = new URLSearchParams({ estado: status });
+  list(status?: ConnectionStatus): Promise<Connection[]> {
+    const suffix = status
+      ? `?${new URLSearchParams({ estado: status }).toString()}`
+      : "";
     return apiClient.get<Connection[]>(
-      `${API_ENDPOINTS.CONNECTIONS.LIST}?${query.toString()}`,
+      `${API_ENDPOINTS.CONNECTIONS.LIST}${suffix}`,
     );
   },
 

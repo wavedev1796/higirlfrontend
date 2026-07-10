@@ -5,11 +5,13 @@ import { DiscoverFilters } from "@/features/matching/components/DiscoverFilters"
 import { DiscoverList } from "@/features/matching/components/DiscoverList";
 import { useDiscover } from "@/features/matching/hooks/useDiscover";
 import { useDiscoverFilters } from "@/features/matching/hooks/useDiscoverFilters";
+import { useConnectedUserIds } from "@/features/matching/hooks/useConnectedUserIds";
 
 export default function DescubrirPage() {
   const { filters, setFilter, resetFilters } = useDiscoverFilters();
   const { results, loading, error, page, totalPages, goToPage, ignore } =
     useDiscover(filters);
+  const connectedIds = useConnectedUserIds();
 
   return (
     <ProtectedRoute>
@@ -33,6 +35,7 @@ export default function DescubrirPage() {
           totalPages={totalPages}
           onIgnore={ignore}
           onPageChange={goToPage}
+          connectedIds={connectedIds}
         />
       </section>
     </ProtectedRoute>

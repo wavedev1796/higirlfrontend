@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface ConfirmDialogProps {
   title: string;
@@ -27,7 +28,10 @@ export function ConfirmDialog({
     return () => document.removeEventListener("keydown", handler);
   }, [onCancel]);
 
-  return (
+  // Portal a document.body: sin esto, un ancestro con backdrop-filter/transform
+  // (p.ej. .discover-card) se vuelve el bloque contenedor y atrapa el overlay
+  // fixed dentro de la card en vez de cubrir la pantalla completa.
+  return createPortal(
     <div
       className="modal-overlay"
       role="dialog"
@@ -55,6 +59,7 @@ export function ConfirmDialog({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

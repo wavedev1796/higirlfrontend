@@ -12,6 +12,7 @@
   gap: 0.65rem;
   font-size: 1.15rem;
   font-weight: 800;
+  white-space: nowrap;
   color: var(--heading-dark);
 }
 
@@ -53,12 +54,14 @@
 }
 
 .primary-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+  /* Tono de marca oscurecido (sin degradado) — hover limpio y consistente */
+  background: #e34879;
+  transform: translateY(-1px);
   box-shadow: 0 12px 28px rgba(227, 72, 121, 0.35);
 }
 
 .secondary-button:hover:not(:disabled) {
-  background: rgba(239, 100, 145, 0.05);
+  background: rgba(239, 100, 145, 0.08);
   border-color: rgba(239, 100, 145, 0.4);
 }
 
