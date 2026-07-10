@@ -31,4 +31,8 @@ export const API_ENDPOINTS = {
     LIST: "/conexiones",
     DETAIL: (id: number) => `/conexiones/${id}`,
   },
+  NOTIFICATIONS: {
+    LIST: "/notificaciones",
+    MARK_READ: (id: number) => `/notificaciones/${id}/leido`,
+  },
 } as const;
