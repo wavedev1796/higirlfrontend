@@ -7,6 +7,7 @@ import { ROUTES } from "@/shared/constants/routes";
 import { connectionsService } from "@/features/connections";
 import { ApiError } from "@/lib/api";
 import { Toast } from "@/shared/components/ui/Toast";
+import { ConfirmDialog } from "@/shared/components/ui/ConfirmDialog";
 import { CompatibilityBadge } from "./CompatibilityBadge";
 import type { DiscoverUser } from "../types";
 
@@ -30,6 +31,7 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectionSent, setConnectionSent] = useState(false);
   const [connectionError, setConnectionError] = useState<string | null>(null);
+  const [confirmingIgnore, setConfirmingIgnore] = useState(false);
 
   if (hidden) return null;
 
@@ -129,13 +131,27 @@ export function DiscoverCard({ item, onIgnore }: DiscoverCardProps) {
         <button
           type="button"
           className="btn btn-ghost"
-          onClick={handleIgnore}
+          onClick={() => setConfirmingIgnore(true)}
           disabled={isIgnoring}
           aria-label={`Ignorar a ${usuario.nombre}`}
         >
           Ignorar
         </button>
       </div>
+
+      {confirmingIgnore && (
+        <ConfirmDialog
+          title="Dejar de ver esta recomendación"
+          message={`¿Seguro que quieres dejar de ver a ${usuario.nombre} como recomendación? No volverá a aparecer en Descubrir.`}
+          confirmLabel="Sí, ignorar"
+          cancelLabel="Cancelar"
+          onCancel={() => setConfirmingIgnore(false)}
+          onConfirm={() => {
+            setConfirmingIgnore(false);
+            handleIgnore();
+          }}
+        />
+      )}
     </article>
   );
 }
