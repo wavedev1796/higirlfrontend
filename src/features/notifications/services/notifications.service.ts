@@ -7,5 +7,5 @@ export const notificationsService = {
     apiClient.get<Notification[]>(API_ENDPOINTS.NOTIFICATIONS.LIST),
 
   markRead: (id: number) =>
-    apiClient.patch<Notification>(API_ENDPOINTS.NOTIFICATIONS.MARK_READ(id)),
+    apiClient.patch<Notification>(API_ENDPOINTS.NOTIFICATIONS.MARK_READ(id), {}),
 } as const;
