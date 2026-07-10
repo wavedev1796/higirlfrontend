@@ -39,7 +39,15 @@ export function useNotifications(): UseNotificationsResult {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
     const timer = setInterval(load, POLL_MS);
-    return () => clearInterval(timer);
+    // El layout del dashboard no se remonta al navegar entre páginas, así que
+    // además del poll refrescamos al volver el foco a la pestaña: así una
+    // notificación recién recibida aparece en la campana sin esperar 60s.
+    const onFocus = () => load();
+    window.addEventListener("focus", onFocus);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("focus", onFocus);
+    };
   }, [load]);
 
   const markRead = useCallback(async (id: number) => {
