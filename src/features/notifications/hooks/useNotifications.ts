@@ -36,6 +36,7 @@ export function useNotifications(): UseNotificationsResult {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     load();
     const timer = setInterval(load, POLL_MS);
     return () => clearInterval(timer);
