@@ -47,10 +47,10 @@ export function ConfirmDialog({
           </div>
         </header>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={onCancel}>
+          <button type="button" className="secondary-button" onClick={onCancel}>
             {cancelLabel}
           </button>
-          <button type="button" className="btn btn-ghost" onClick={onConfirm}>
+          <button type="button" className="primary-button" onClick={onConfirm}>
             {confirmLabel}
           </button>
         </div>
