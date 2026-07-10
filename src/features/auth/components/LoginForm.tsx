@@ -35,7 +35,7 @@ export function LoginForm() {
         const interestsCount = (response.intereses ?? []).length;
         authStore.login(
           {
-            id: response.usuario ?? "",
+            id: response.id ?? "",
             email: response.email ?? email.trim(),
             firstName: response.nombre ?? "",
             lastName: response.apellido ?? "",

@@ -92,7 +92,7 @@ export function RegisterForm() {
 
       authStore.login(
         {
-          id: session.usuario ?? "",
+          id: session.id ?? "",
           email: session.email ?? formData.email.trim(),
           firstName: session.nombre ?? formData.firstName.trim(),
           lastName: session.apellido ?? formData.lastName.trim(),

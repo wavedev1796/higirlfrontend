@@ -16,6 +16,7 @@ export interface LoginResponse {
   message?: string | string[];
   mensaje?: string;
   token?: string;
+  id?: number;
   usuario?: string;
   nombre?: string;
   apellido?: string;
