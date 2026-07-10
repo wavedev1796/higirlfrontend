@@ -7,6 +7,7 @@ import { Home, Compass, User, Settings, UsersRound } from "lucide-react";
 import { BrandLockup } from "@/shared/components/layout/BrandLockup";
 import { ROUTES } from "@/shared/constants/routes";
 import { ProtectedRoute, useAuthStore } from "@/features/auth";
+import { NotificationBell } from "@/features/notifications";
 
 const NAV_LINKS = [
   { href: ROUTES.DASHBOARD, label: "Inicio", Icon: Home },
@@ -71,6 +72,7 @@ export default function DashboardLayout({
               ))}
             </nav>
             <div className="dashboard-user">
+              <NotificationBell />
               <span>{user?.firstName || "Girl"}</span>
               <button type="button" onClick={handleLogout} className="logout-btn">
                 Cerrar sesión
