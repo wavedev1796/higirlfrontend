@@ -2760,8 +2760,13 @@
   margin: 0;
   padding: 0;
 }
+.notif-row {
+  display: flex;
+  align-items: stretch;
+}
 .notif-item {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -2772,6 +2777,23 @@
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
   color: var(--foreground);
+}
+.notif-mark-read {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color var(--transition-base), background var(--transition-base);
+}
+.notif-mark-read:hover,
+.notif-mark-read:focus-visible {
+  color: var(--brand-strong);
+  background: rgba(239, 100, 145, 0.12);
 }
 .notif-item:hover {
   background: rgba(239, 100, 145, 0.08);

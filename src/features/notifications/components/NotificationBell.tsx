@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Bell } from "lucide-react";
+import { Bell, Check } from "lucide-react";
 import { ROUTES } from "@/shared/constants/routes";
 import { useNotifications } from "../hooks/useNotifications";
 import type { Notification } from "../types";
@@ -67,7 +67,7 @@ export function NotificationBell() {
           ) : (
             <ul className="notif-list">
               {notifications.map((n) => (
-                <li key={n.id}>
+                <li key={n.id} className="notif-row">
                   <button
                     type="button"
                     className={`notif-item${n.leido ? "" : " notif-item-unread"}`}
@@ -80,6 +80,17 @@ export function NotificationBell() {
                     </span>
                     {!n.leido && <span className="notif-dot" aria-hidden />}
                   </button>
+                  {!n.leido && (
+                    <button
+                      type="button"
+                      className="notif-mark-read"
+                      onClick={() => markRead(n.id)}
+                      aria-label={`Marcar como leída la notificación de ${n.payload?.actorNombre || "alguien"}`}
+                      title="Marcar como leída"
+                    >
+                      <Check size={15} aria-hidden />
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
