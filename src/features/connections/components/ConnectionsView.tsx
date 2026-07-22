@@ -60,15 +60,14 @@ export function ConnectionsView() {
                   <p>@{person.usuario}</p>
                   <span>{person.profesion || "Conexión de Hi Girl"}</span>
                 </div>
-                <button
-                  type="button"
+                <Link
+                  href={ROUTES.CHAT_WITH(person.id)}
                   className="connection-icon-button message"
                   aria-label={`Enviar mensaje a ${fullName}`}
-                  title="Mensajes próximamente"
-                  disabled
+                  title={`Conversar con ${fullName}`}
                 >
                   <MessageCircle size={19} aria-hidden />
-                </button>
+                </Link>
               </article>
             );
           })

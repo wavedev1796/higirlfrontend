@@ -19,6 +19,9 @@ export const ROUTES = {
   DISCOVER: "/descubrir",
   REQUESTS: "/solicitudes",
   CONNECTIONS: "/conexiones",
+  CHATS: "/chats",
+  CHAT_WITH: (participantId: number | string) =>
+    `/chats?participante=${participantId}`,
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
 } as const;

@@ -3,7 +3,7 @@
 import { useState, useEffect, ViewTransition } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Compass, User, Settings, UsersRound } from "lucide-react";
+import { Home, Compass, MessageCircle, User, Settings, UsersRound } from "lucide-react";
 import { BrandLockup } from "@/shared/components/layout/BrandLockup";
 import { ROUTES } from "@/shared/constants/routes";
 import { ProtectedRoute, useAuthStore } from "@/features/auth";
@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: ROUTES.DASHBOARD, label: "Inicio", Icon: Home },
   { href: ROUTES.DISCOVER, label: "Descubrir", Icon: Compass },
   { href: ROUTES.REQUESTS, label: "Conexiones", Icon: UsersRound },
+  { href: ROUTES.CHATS, label: "Chats", Icon: MessageCircle },
   { href: ROUTES.PROFILE, label: "Mi Perfil", Icon: User },
   { href: ROUTES.SETTINGS, label: "Ajustes", Icon: Settings },
 ];

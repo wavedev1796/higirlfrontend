@@ -31,6 +31,10 @@ export const API_ENDPOINTS = {
     LIST: "/conexiones",
     DETAIL: (id: number) => `/conexiones/${id}`,
   },
+  CHATS: {
+    LIST: "/chats",
+    MESSAGES: (id: number) => `/chats/${id}/mensajes`,
+  },
   NOTIFICATIONS: {
     LIST: "/notificaciones",
     MARK_READ: (id: number) => `/notificaciones/${id}/leido`,
