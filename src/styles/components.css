@@ -509,3 +509,44 @@
   width: 0;
   padding: 0;
 }
+
+/* ── Moderación: kebab + dropdown ─────────────────────────── */
+.moderation-menu { position: relative; display: inline-flex; }
+.moderation-trigger {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.25rem; height: 2.25rem; border-radius: 999px;
+  border: 0; background: transparent; cursor: pointer; color: inherit;
+}
+.moderation-trigger:hover { background: rgba(0, 0, 0, 0.06); }
+.moderation-dropdown {
+  position: absolute; right: 0; top: calc(100% + 0.25rem); z-index: 40;
+  min-width: 11rem; padding: 0.35rem; border-radius: 0.75rem;
+  background: var(--glass-bg, #fff); box-shadow: var(--shadow-glass, 0 8px 24px rgba(0,0,0,.12));
+  display: flex; flex-direction: column;
+}
+.moderation-dropdown button {
+  display: flex; align-items: center; gap: 0.5rem; width: 100%;
+  padding: 0.55rem 0.6rem; border: 0; background: transparent;
+  border-radius: 0.5rem; cursor: pointer; font: inherit; text-align: left;
+}
+.moderation-dropdown button:hover { background: rgba(0, 0, 0, 0.05); }
+.moderation-dropdown button.danger { color: #dc2626; }
+
+/* ── Report dialog ────────────────────────────────────────── */
+.report-reasons { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.75rem 0; }
+.report-reason { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+.report-comment {
+  width: 100%; min-height: 4.5rem; resize: vertical; padding: 0.6rem;
+  border: 1px solid rgba(0,0,0,.15); border-radius: 0.5rem; font: inherit;
+}
+
+/* ── Barra de bloqueo en el chat ──────────────────────────── */
+.chat-blocked-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 0.9rem 1rem; background: rgba(0,0,0,.04); border-top: 1px solid rgba(0,0,0,.08);
+}
+.chat-blocked-bar p { margin: 0; font-size: 0.9rem; color: #6b7280; }
+.chat-blocked-bar button {
+  border: 0; background: transparent; color: #dc2626; font-weight: 600;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;
+}
