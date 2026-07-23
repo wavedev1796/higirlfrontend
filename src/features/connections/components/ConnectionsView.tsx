@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MessageCircle, UsersRound } from "lucide-react";
 import { useAuthStore } from "@/features/auth";
+import { ModerationMenu } from "@/features/moderation";
 import { ROUTES } from "@/shared/constants/routes";
 import { useConnections } from "../hooks/useConnections";
 import { ConnectionAvatar } from "./ConnectionAvatar";
@@ -68,6 +69,11 @@ export function ConnectionsView() {
                 >
                   <MessageCircle size={19} aria-hidden />
                 </Link>
+                <ModerationMenu
+                  targetId={person.id}
+                  targetName={fullName}
+                  onBlocked={() => void refresh()}
+                />
               </article>
             );
           })

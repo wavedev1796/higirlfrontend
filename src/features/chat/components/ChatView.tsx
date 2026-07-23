@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import {
+  Ban,
   ChevronLeft,
   CheckCheck,
   CircleAlert,
@@ -19,6 +20,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { useAuthStore } from "@/features/auth";
+import { ModerationMenu, useBlockedUsers } from "@/features/moderation";
 import { useChat } from "../hooks/useChat";
 import type { Chat, ChatMessage, ChatParticipant } from "../types";
 import { ChatAvatar } from "./ChatAvatar";
@@ -59,6 +61,8 @@ export function ChatView({ initialParticipantId }: { initialParticipantId?: numb
   const previousHeight = useRef<number | null>(null);
   const selected = chat.chats.find((item) => item.id === chat.selectedChatId);
   const person = selected ? otherParticipant(selected, user?.id) : null;
+  const { blockedIds, unblock, refresh: refreshBlocked } = useBlockedUsers();
+  const isBlocked = person ? blockedIds.has(person.id) : false;
 
   useLayoutEffect(() => {
     const container = scrollRef.current;
@@ -171,6 +175,13 @@ export function ChatView({ initialParticipantId }: { initialParticipantId?: numb
                 <h2>{person.nombre} {person.apellido}</h2>
                 <span>@{person.usuario}</span>
               </div>
+              <div style={{ marginLeft: "auto" }}>
+                <ModerationMenu
+                  targetId={person.id}
+                  targetName={`${person.nombre} ${person.apellido}`.trim()}
+                  onBlocked={refreshBlocked}
+                />
+              </div>
             </header>
 
             {chat.error && (
@@ -237,36 +248,45 @@ export function ChatView({ initialParticipantId }: { initialParticipantId?: numb
               })}
             </div>
 
-            <form className="message-composer" onSubmit={handleSubmit}>
-              {showEmojis && (
-                <div className="emoji-picker" role="group" aria-label="Elegir emoji">
-                  {EMOJIS.map((emoji) => (
-                    <button key={emoji} type="button" onClick={() => setDraft((value) => `${value}${emoji}`)}>{emoji}</button>
-                  ))}
-                </div>
-              )}
-              <button
-                type="button"
-                className="emoji-trigger"
-                onClick={() => setShowEmojis((value) => !value)}
-                aria-label="Mostrar emojis"
-                aria-expanded={showEmojis}
-              >
-                <Smile size={21} aria-hidden />
-              </button>
-              <textarea
-                value={draft}
-                onChange={(event) => setDraft(event.target.value)}
-                onKeyDown={handleKeyDown}
-                maxLength={2000}
-                rows={1}
-                placeholder="Escribe un mensaje..."
-                aria-label="Mensaje"
-              />
-              <button type="submit" className="send-message" disabled={!draft.trim()} aria-label="Enviar mensaje">
-                <Send size={20} aria-hidden />
-              </button>
-            </form>
+            {isBlocked ? (
+              <div className="chat-blocked-bar">
+                <p>Bloqueaste a esta persona. Toca para desbloquearla.</p>
+                <button type="button" onClick={() => person && void unblock(person.id)}>
+                  <Ban size={15} aria-hidden /> Desbloquear
+                </button>
+              </div>
+            ) : (
+              <form className="message-composer" onSubmit={handleSubmit}>
+                {showEmojis && (
+                  <div className="emoji-picker" role="group" aria-label="Elegir emoji">
+                    {EMOJIS.map((emoji) => (
+                      <button key={emoji} type="button" onClick={() => setDraft((value) => `${value}${emoji}`)}>{emoji}</button>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  className="emoji-trigger"
+                  onClick={() => setShowEmojis((value) => !value)}
+                  aria-label="Mostrar emojis"
+                  aria-expanded={showEmojis}
+                >
+                  <Smile size={21} aria-hidden />
+                </button>
+                <textarea
+                  value={draft}
+                  onChange={(event) => setDraft(event.target.value)}
+                  onKeyDown={handleKeyDown}
+                  maxLength={2000}
+                  rows={1}
+                  placeholder="Escribe un mensaje..."
+                  aria-label="Mensaje"
+                />
+                <button type="submit" className="send-message" disabled={!draft.trim()} aria-label="Enviar mensaje">
+                  <Send size={20} aria-hidden />
+                </button>
+              </form>
+            )}
           </>
         )}
       </div>
