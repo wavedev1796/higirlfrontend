@@ -24,4 +24,5 @@ export const ROUTES = {
     `/chats?participante=${participantId}`,
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
+  VERIFY_EMAIL: "/verificar-email",
 } as const;

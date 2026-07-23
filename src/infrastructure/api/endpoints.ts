@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
     FORGOT_PASSWORD: "/auth/forgot-password",
     RESET_PASSWORD: "/auth/reset-password",
     ME: "/auth/perfil",
+    VERIFY_EMAIL: "/auth/verify-email",
   },
   PROFILE: {
     ME: "/perfil/me",
@@ -38,5 +39,10 @@ export const API_ENDPOINTS = {
   NOTIFICATIONS: {
     LIST: "/notificaciones",
     MARK_READ: (id: number) => `/notificaciones/${id}/leido`,
+  },
+  MODERATION: {
+    REPORTS: "/reportes",
+    BLOCKS: "/bloqueos",
+    BLOCK: (id: number) => `/bloqueos/${id}`,
   },
 } as const;
