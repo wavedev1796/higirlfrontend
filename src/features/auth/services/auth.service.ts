@@ -36,4 +36,9 @@ export const authService = {
       password,
       token,
     }),
+
+  verifyEmail: (token: string) =>
+    apiClient.post<{ mensaje: string }>(API_ENDPOINTS.AUTH.VERIFY_EMAIL, {
+      token,
+    }),
 } as const;

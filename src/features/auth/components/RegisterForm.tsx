@@ -2,22 +2,18 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { User, Mail, Lock, Eye, EyeOff, Calendar, MapPin } from "lucide-react";
 import { useRegister } from "../hooks/useRegister";
-import { useLogin } from "../hooks/useLogin";
 import { useCities } from "../hooks/useCities";
 import {
   useRegisterValidation,
   type RegisterFormFields,
 } from "../hooks/useRegisterValidation";
-import { useAuthStore } from "../providers/AuthProvider";
 import { Button } from "@/shared/components/ui/Button";
 import { Input } from "@/shared/components/ui/Input";
 import { ROUTES } from "@/shared/constants/routes";
 
 export function RegisterForm() {
-  const router = useRouter();
   const [formData, setFormData] = useState<RegisterFormFields>({
     firstName: "",
     lastName: "",
@@ -30,11 +26,10 @@ export function RegisterForm() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [sentTo, setSentTo] = useState<string | null>(null);
 
-  const { register, status, error, data } = useRegister();
-  const { login } = useLogin();
+  const { register, status, error } = useRegister();
   const { cities, loading: citiesLoading } = useCities();
-  const authStore = useAuthStore();
 
   const { validateField, touchField, validateAll, getFieldError } =
     useRegisterValidation();
@@ -78,32 +73,9 @@ export function RegisterForm() {
         ciudadId: Number(formData.ciudadId),
         fechaNacimiento: formData.fechaNacimiento,
       });
-      const session = await login({
-        email: formData.email.trim(),
-        password: formData.password,
-      });
-
-      if (!session.token) {
-        router.replace(
-          `${ROUTES.LOGIN}?callbackUrl=${encodeURIComponent(`${ROUTES.INTERESTS}?onboarding=1`)}`,
-        );
-        return;
-      }
-
-      authStore.login(
-        {
-          id: session.id ?? "",
-          email: session.email ?? formData.email.trim(),
-          firstName: session.nombre ?? formData.firstName.trim(),
-          lastName: session.apellido ?? formData.lastName.trim(),
-          rol: (session.rol as "user" | "admin") ?? "user",
-          interestsCount: session.intereses?.length ?? 0,
-        },
-        session.token,
-      );
-      router.replace(`${ROUTES.INTERESTS}?onboarding=1`);
+      setSentTo(formData.email.trim());
     } catch {
-      // Error handled by hook — displayed in the error banner below
+      // Error mostrado por el hook (banner de error abajo)
     }
   }
 
@@ -115,6 +87,19 @@ export function RegisterForm() {
   })();
 
   /* ── Render ────────────────────────────────────────────────────────── */
+
+  if (sentTo) {
+    return (
+      <div className="verify-notice" role="status">
+        <h2>Revisa tu correo</h2>
+        <p>
+          Te hemos enviado la activación de cuenta al correo: <strong>{sentTo}</strong>.
+        </p>
+        <p>Haz click en el enlace del correo para activar tu cuenta y luego inicia sesión.</p>
+        <Link href={ROUTES.LOGIN} className="btn btn-secondary">Ir a iniciar sesión</Link>
+      </div>
+    );
+  }
 
   return (
     <form className="login-form" onSubmit={handleSubmit} noValidate>
@@ -264,13 +249,6 @@ export function RegisterForm() {
         <div className="status-message error" role="alert">
           <strong>Atención</strong>
           <span>{error}</span>
-        </div>
-      )}
-
-      {data && (
-        <div className="status-message success" role="status">
-          <strong>Listo</strong>
-          <span>Cuenta creada exitosamente.</span>
         </div>
       )}
 

@@ -550,3 +550,8 @@
   border: 0; background: transparent; color: #dc2626; font-weight: 600;
   cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;
 }
+
+/* ── Aviso de verificación tras registro ────────────────────── */
+.verify-notice { text-align: center; display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem 0; }
+.verify-notice h2 { margin: 0; }
+.verify-notice p { margin: 0; color: #4b5563; }
