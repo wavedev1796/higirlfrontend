@@ -502,12 +502,23 @@
   box-shadow: 0 0 0 3px rgba(122, 31, 63, 0.1);
 }
 
-/* Hide browser-native date picker indicator so our custom calendar icon is the
-   only visual affordance. The input still opens the date picker on click. */
+/* El indicador nativo se mantiene invisible (el icono de calendario propio es la
+   única señal visual), pero estirado sobre todo el campo: así un click en
+   cualquier parte del input abre el calendario del navegador. Con `width: 0`
+   el picker era casi imposible de abrir. */
+.login-form input[type="date"] {
+  position: relative;
+}
+
 .login-form input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
-  width: 0;
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
   padding: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
 /* ── Moderación: kebab + dropdown ─────────────────────────── */

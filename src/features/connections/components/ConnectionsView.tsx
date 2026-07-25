@@ -61,19 +61,23 @@ export function ConnectionsView() {
                   <p>@{person.usuario}</p>
                   <span>{person.profesion || "Conexión de Hi Girl"}</span>
                 </div>
-                <Link
-                  href={ROUTES.CHAT_WITH(person.id)}
-                  className="connection-icon-button message"
-                  aria-label={`Enviar mensaje a ${fullName}`}
-                  title={`Conversar con ${fullName}`}
-                >
-                  <MessageCircle size={19} aria-hidden />
-                </Link>
-                <ModerationMenu
-                  targetId={person.id}
-                  targetName={fullName}
-                  onBlocked={() => void refresh()}
-                />
+                {/* Ambas acciones van en la MISMA celda del grid (3 columnas):
+                    sueltas, el kebab se salía a una segunda fila. */}
+                <div className="request-actions">
+                  <Link
+                    href={ROUTES.CHAT_WITH(person.id)}
+                    className="connection-icon-button message"
+                    aria-label={`Enviar mensaje a ${fullName}`}
+                    title={`Conversar con ${fullName}`}
+                  >
+                    <MessageCircle size={19} aria-hidden />
+                  </Link>
+                  <ModerationMenu
+                    targetId={person.id}
+                    targetName={fullName}
+                    onBlocked={() => void refresh()}
+                  />
+                </div>
               </article>
             );
           })

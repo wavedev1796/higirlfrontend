@@ -23,27 +23,31 @@ export function ReportDialog({ targetName, onSubmit, onClose }: ReportDialogProp
             <p>Cuéntanos qué está pasando. Tu reporte es confidencial.</p>
           </div>
         </header>
-        <div className="report-reasons">
-          {REPORT_REASONS.map((r) => (
-            <label key={r.value} className="report-reason">
-              <input
-                type="radio"
-                name="motivo"
-                value={r.value}
-                checked={motivo === r.value}
-                onChange={() => setMotivo(r.value)}
-              />
-              <span>{r.label}</span>
-            </label>
-          ))}
+        {/* .modal-body aporta el padding lateral del resto de modales; sin él
+            los radios y el textarea quedaban pegados al borde de la card. */}
+        <div className="modal-body">
+          <div className="report-reasons">
+            {REPORT_REASONS.map((r) => (
+              <label key={r.value} className="report-reason">
+                <input
+                  type="radio"
+                  name="motivo"
+                  value={r.value}
+                  checked={motivo === r.value}
+                  onChange={() => setMotivo(r.value)}
+                />
+                <span>{r.label}</span>
+              </label>
+            ))}
+          </div>
+          <textarea
+            className="report-comment"
+            placeholder="Detalle (opcional)"
+            maxLength={500}
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+          />
         </div>
-        <textarea
-          className="report-comment"
-          placeholder="Detalle (opcional)"
-          maxLength={500}
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-        />
         <div className="modal-footer">
           <button type="button" className="secondary-button" onClick={onClose}>
             Cancelar

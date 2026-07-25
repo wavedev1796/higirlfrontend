@@ -79,10 +79,16 @@ export function RegisterForm() {
     }
   }
 
-  /* ── Max date for date picker (must be ≥18 years old) ─────────────── */
+  /* ── Rango del calendario: entre 18 y 100 años ────────────────────── */
   const maxDate = (() => {
     const d = new Date();
     d.setFullYear(d.getFullYear() - 18);
+    return d.toISOString().split("T")[0];
+  })();
+
+  const minDate = (() => {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - 100);
     return d.toISOString().split("T")[0];
   })();
 
@@ -204,6 +210,7 @@ export function RegisterForm() {
           name="fechaNacimiento"
           type="date"
           max={maxDate}
+          min={minDate}
           value={formData.fechaNacimiento}
           onChange={handleChange}
           onBlur={handleBlur}
