@@ -2969,9 +2969,12 @@
   cursor: pointer;
 }
 
+/* Flex, no grid: el banner de error es condicional, y con filas fijas el panel
+   corria el reparto una posicion cuando faltaba, dejando el composer fuera del
+   contenedor en conversaciones largas. */
 .conversation-panel {
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   min-height: 0;
   background:
@@ -2995,8 +2998,7 @@
 }
 
 .conversation-empty {
-  grid-row: 1 / -1;
-  align-self: center;
+  margin: auto;
 }
 
 .conversation-empty span,
@@ -3028,6 +3030,7 @@
 }
 
 .message-scroll {
+  flex: 1;
   min-height: 0;
   overflow-y: auto;
   padding: 1.25rem clamp(1rem, 3vw, 2rem);
