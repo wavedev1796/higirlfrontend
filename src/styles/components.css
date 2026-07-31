@@ -140,6 +140,8 @@
   color: var(--brand-strong);
   transform: translateY(-50%);
   pointer-events: none;
+  /* Stay above the native date-picker overlay (inset:0 indicator) */
+  z-index: 1;
 }
 
 /* Left padding for icon — applies to both input and select */
@@ -504,11 +506,9 @@
 
 /* El indicador nativo se mantiene invisible (el icono de calendario propio es la
    única señal visual), pero estirado sobre todo el campo: así un click en
-   cualquier parte del input abre el calendario del navegador. Con `width: 0`
-   el picker era casi imposible de abrir. */
-.login-form input[type="date"] {
-  position: relative;
-}
+   cualquier parte del input abre el calendario del navegador.
+   El input NO lleva position:relative para evitar que su stacking context
+   cubra el SVG del ícono de calendario que vive en el wrapper padre. */
 
 .login-form input[type="date"]::-webkit-calendar-picker-indicator {
   position: absolute;
