@@ -282,6 +282,26 @@
   color: var(--muted);
 }
 
+/* Accion inline dentro de un mensaje de estado (ej. reenviar activacion). */
+.link-button {
+  justify-self: start;
+  margin-top: 0.15rem;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--brand-strong);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 .session-preview {
   border: 1px solid rgba(214, 188, 250, 0.55);
   background: rgba(247, 238, 255, 0.82);

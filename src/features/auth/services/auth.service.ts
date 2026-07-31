@@ -31,9 +31,11 @@ export const authService = {
       email,
     }),
 
+  // El backend espera `newPassword`; enviar `password` lo rechaza con 400
+  // porque el ValidationPipe global usa forbidNonWhitelisted.
   resetPassword: (password: string, token: string) =>
     apiClient.post<{ message: string }>(API_ENDPOINTS.AUTH.RESET_PASSWORD, {
-      password,
+      newPassword: password,
       token,
     }),
 
@@ -41,4 +43,10 @@ export const authService = {
     apiClient.post<{ mensaje: string }>(API_ENDPOINTS.AUTH.VERIFY_EMAIL, {
       token,
     }),
+
+  resendVerification: (email: string) =>
+    apiClient.post<{ mensaje: string }>(
+      API_ENDPOINTS.AUTH.RESEND_VERIFICATION,
+      { email },
+    ),
 } as const;

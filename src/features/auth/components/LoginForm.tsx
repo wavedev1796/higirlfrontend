@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLogin } from "../hooks/useLogin";
 import { useAuthStore } from "../providers/AuthProvider";
+import { authService } from "../services/auth.service";
 import { Button } from "@/shared/components/ui/Button";
 import { Input } from "@/shared/components/ui/Input";
 import { ROUTES } from "@/shared/constants/routes";
@@ -23,6 +24,23 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const { login, status, error, data: profile } = useLogin();
   const authStore = useAuthStore();
+  const [resendState, setResendState] = useState<"idle" | "sending" | "sent">(
+    "idle",
+  );
+
+  // El backend rechaza el login mientras la cuenta no este activada. Es el
+  // unico caso en que la usuaria puede desbloquearse sola, pidiendo otro correo.
+  const needsVerification = /verificar tu correo/i.test(error ?? "");
+
+  async function handleResend() {
+    setResendState("sending");
+    try {
+      await authService.resendVerification(email.trim());
+    } catch {
+      // La respuesta es neutral por diseno: no se distingue exito de fallo.
+    }
+    setResendState("sent");
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -115,6 +133,24 @@ export function LoginForm() {
         <div className="status-message error" role="status">
           <strong>Atención</strong>
           <span>{error}</span>
+          {needsVerification &&
+            (resendState === "sent" ? (
+              <span>
+                Si la cuenta está pendiente de activación, te enviamos un enlace
+                nuevo. Revisa tu correo.
+              </span>
+            ) : (
+              <button
+                type="button"
+                className="link-button"
+                onClick={handleResend}
+                disabled={resendState === "sending" || !email.trim()}
+              >
+                {resendState === "sending"
+                  ? "Enviando..."
+                  : "Reenviar correo de activación"}
+              </button>
+            ))}
         </div>
       )}
 
