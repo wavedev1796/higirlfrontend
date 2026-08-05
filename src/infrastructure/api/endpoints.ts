@@ -10,7 +10,6 @@ export const API_ENDPOINTS = {
     REGISTER: "/auth/register",
     FORGOT_PASSWORD: "/auth/forgot-password",
     RESET_PASSWORD: "/auth/reset-password",
-    ME: "/auth/perfil",
     VERIFY_EMAIL: "/auth/verify-email",
     RESEND_VERIFICATION: "/auth/resend-verification",
   },
