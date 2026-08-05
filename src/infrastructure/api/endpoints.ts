@@ -37,6 +37,12 @@ export const API_ENDPOINTS = {
     LIST: "/chats",
     MESSAGES: (id: number) => `/chats/${id}/mensajes`,
   },
+  FORUMS: {
+    FEED: "/feed",
+    POSTS: "/publicaciones",
+    LIKE: (id: number) => `/publicaciones/${id}/likes`,
+    POST: (id: number) => `/publicaciones/${id}`,
+  },
   NOTIFICATIONS: {
     LIST: "/notificaciones",
     MARK_READ: (id: number) => `/notificaciones/${id}/leido`,

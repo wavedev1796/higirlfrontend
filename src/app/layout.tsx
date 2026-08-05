@@ -5,7 +5,7 @@
  */
 
 import type { Metadata } from "next";
-import { Poppins, Lora } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { AuthProvider } from "@/features/auth";
 import "../styles/tokens.css";
 import "../styles/base.css";
@@ -14,13 +14,6 @@ import "../styles/layouts.css";
 
 const poppins = Poppins({
   variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const lora = Lora({
-  variable: "--font-lora",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -38,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${poppins.variable} ${lora.variable} h-full antialiased`} data-scroll-behavior="smooth">
+    <html lang="es" className={`${poppins.variable} h-full antialiased`} data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col">
         <AuthProvider>{children}</AuthProvider>
       </body>

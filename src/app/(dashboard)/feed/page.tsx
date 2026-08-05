@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import NextLink from "next/link";
 import { Users } from "lucide-react";
 import { useAuthStore } from "@/features/auth";
 import { RecommendationsList } from "@/features/matching";
+import { ForumFeed } from "@/features/forums";
 import { InterestsModal } from "@/features/profile";
 import { BRAND } from "@/shared/constants/brand";
-import { ROUTES } from "@/shared/constants/routes";
 
 export default function FeedPage() {
   const { user, refreshUser } = useAuthStore();
@@ -52,20 +51,7 @@ export default function FeedPage() {
         </header>
 
         <section className="feed-content">
-          <div className="pro-card">
-            <h3>Última actividad</h3>
-            <div className="discover-empty" style={{ minHeight: "12rem" }}>
-              <p>Todavía no hay actividad por aquí.</p>
-              <p>Cuando la comunidad publique, lo verás en este espacio.</p>
-              <NextLink
-                href={ROUTES.DISCOVER}
-                className="btn btn-secondary"
-                style={{ marginTop: "0.75rem" }}
-              >
-                Explorar comunidad
-              </NextLink>
-            </div>
-          </div>
+          <ForumFeed />
         </section>
       </main>
 
