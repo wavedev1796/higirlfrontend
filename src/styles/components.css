@@ -1,0 +1,561 @@
+/* =============================================================================
+   Component Styles — Hi Girl
+   =============================================================================
+   Styles for shared UI primitives: buttons, inputs, cards, alerts, toasts.
+   ============================================================================= */
+
+/* ── Brand lockup (logo + wordmark) ────────────────────────────────── */
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  white-space: nowrap;
+  color: var(--heading-dark);
+}
+
+.brand-lockup img {
+  border-radius: 0.5rem;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────── */
+
+.primary-button,
+.secondary-button {
+  min-height: 3.4rem;
+  padding: 0 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 800;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.primary-button {
+  color: #fff;
+  background: var(--brand-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.secondary-button {
+  border: 1.5px solid rgba(239, 100, 145, 0.22);
+  color: var(--brand-strong);
+  background: var(--background);
+}
+
+.primary-button:hover:not(:disabled) {
+  /* Tono de marca oscurecido (sin degradado) — hover limpio y consistente */
+  background: #e34879;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(227, 72, 121, 0.35);
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: rgba(239, 100, 145, 0.08);
+  border-color: rgba(239, 100, 145, 0.4);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+/* ── Button Loading Spinner ────────────────────────────────────────── */
+
+.button-loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* ── Inputs ────────────────────────────────────────────────────────── */
+
+.login-form label {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--heading-dark);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.login-form input,
+.login-form select {
+  width: 100%;
+  min-height: 3.35rem;
+  border: 1px solid rgba(239, 100, 145, 0.2);
+  border-radius: var(--radius-sm);
+  outline: 0;
+  padding: 0 1rem;
+  background: var(--background);
+  color: var(--foreground);
+  appearance: none;
+  transition: all var(--transition-base);
+}
+
+.login-form select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--brand-strong) 50%),
+    linear-gradient(135deg, var(--brand-strong) 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.15rem) 50%,
+    calc(100% - 0.8rem) 50%;
+  background-repeat: no-repeat;
+  background-size: 0.36rem 0.36rem;
+}
+
+.login-form input:focus,
+.login-form select:focus {
+  border-color: var(--brand-strong);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 200, 221, 0.25);
+}
+
+.login-form input::placeholder {
+  color: rgba(107, 114, 128, 0.72);
+}
+
+.input-with-icon {
+  position: relative;
+  display: block;
+}
+
+/* Only the LEADING icon (direct child SVG) gets absolute positioning.
+   SVGs inside .input-trailing-action are excluded via the > combinator. */
+.input-with-icon > svg {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  color: var(--brand-strong);
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* Stay above the native date-picker overlay (inset:0 indicator) */
+  z-index: 1;
+}
+
+/* Left padding for icon — applies to both input and select */
+.input-with-icon input,
+.input-with-icon select {
+  padding-left: 3rem;
+}
+
+/* ── Cards ─────────────────────────────────────────────────────────── */
+
+.login-card {
+  width: min(100%, 31rem);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.35rem, 3vw, 2.25rem);
+  background: var(--glass-bg);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(24px);
+}
+
+/* ── Form heading ──────────────────────────────────────────────────── */
+
+.form-heading h2 {
+  margin: 0;
+  color: var(--heading-dark);
+  font-size: clamp(2rem, 3.5vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.form-heading p:last-child {
+  margin: 0.85rem 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.login-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+/* ── Form options row ──────────────────────────────────────────────── */
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.form-options label.remember-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--muted);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.remember-option input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 2.5rem;
+  min-height: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  border: 2px solid rgba(239, 100, 145, 0.35);
+  background: rgba(239, 100, 145, 0.1);
+  cursor: pointer;
+  position: relative;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.remember-option input::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: rgba(239, 100, 145, 0.45);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.remember-option input:checked {
+  background: var(--brand-strong);
+  border-color: var(--brand-strong);
+}
+
+.remember-option input:checked::after {
+  left: calc(100% - 0.85rem - 2px);
+  background: #fff;
+}
+
+.form-options a,
+.signup-note a {
+  color: var(--brand-strong);
+  font-weight: 800;
+}
+
+.signup-note {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ── Status messages ───────────────────────────────────────────────── */
+
+.status-message,
+.session-preview {
+  display: grid;
+  gap: 0.25rem;
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+  line-height: 1.45;
+}
+
+.status-message {
+  border: 1px solid rgba(239, 100, 145, 0.2);
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.status-message.success {
+  border-color: rgba(53, 168, 126, 0.22);
+  background: var(--success-bg);
+  color: #19634b;
+}
+
+.status-message span,
+.session-preview small {
+  color: var(--muted);
+}
+
+/* Accion inline dentro de un mensaje de estado (ej. reenviar activacion). */
+.link-button {
+  justify-self: start;
+  margin-top: 0.15rem;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--brand-strong);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-button:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.session-preview {
+  border: 1px solid rgba(214, 188, 250, 0.55);
+  background: rgba(247, 238, 255, 0.82);
+}
+
+.session-preview span {
+  color: var(--brand-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.session-preview strong {
+  color: var(--heading-dark);
+}
+
+
+
+
+/* ── Toast notification ────────────────────────────────────────────── */
+
+.toast-notification {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  width: min(calc(100% - 2rem), 30rem);
+  gap: 0.85rem;
+  border: 1px solid rgba(239, 100, 145, 0.2);
+  border-radius: 1.15rem;
+  padding: 0.9rem 0.95rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 244, 248, 0.96));
+  color: var(--error);
+  box-shadow: 0 24px 60px rgba(122, 31, 63, 0.2);
+  backdrop-filter: blur(18px);
+  animation: toast-in 220ms ease-out;
+}
+
+.toast-notification.success {
+  border-color: rgba(53, 168, 126, 0.26);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(232, 250, 243, 0.96));
+  color: #155c45;
+}
+
+.toast-icon {
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(239, 100, 145, 0.12);
+  color: var(--error);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.toast-notification.success .toast-icon {
+  background: rgba(53, 168, 126, 0.14);
+  color: #168161;
+}
+
+.toast-copy {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.toast-notification strong {
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.toast-notification span {
+  color: inherit;
+}
+
+.toast-copy > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.toast-close {
+  display: inline-flex;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.toast-close:hover {
+  background: rgba(122, 31, 63, 0.08);
+  color: var(--brand-strong);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Field grid (2-column layout) ──────────────────────────────────── */
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 480px) {
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Input trailing action (e.g. password eye toggle) ──────────────── */
+
+.input-trailing-action {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Only inputs that ACTUALLY have a trailing action get right padding.
+   Applied via the .has-trailing wrapper class set in Input.tsx. */
+.has-trailing input {
+  padding-right: 2.75rem;
+}
+
+.input-eye-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 0.4rem;
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.input-eye-btn:hover {
+  color: var(--brand-strong);
+  background: rgba(239, 100, 145, 0.08);
+}
+
+.input-eye-btn:focus-visible {
+  outline: 2px solid var(--brand-strong);
+  outline-offset: 2px;
+}
+
+/* ── Inline field error message ────────────────────────────────────── */
+
+.error-message {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--error);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.login-form label:has(.error-message) input,
+.login-form label:has(.error-message) select {
+  border-color: rgba(122, 31, 63, 0.55);
+  box-shadow: 0 0 0 3px rgba(122, 31, 63, 0.1);
+}
+
+/* El indicador nativo se mantiene invisible (el icono de calendario propio es la
+   única señal visual), pero estirado sobre todo el campo: así un click en
+   cualquier parte del input abre el calendario del navegador.
+   El input NO lleva position:relative para evitar que su stacking context
+   cubra el SVG del ícono de calendario que vive en el wrapper padre. */
+
+.login-form input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ── Moderación: kebab + dropdown ─────────────────────────── */
+.moderation-menu { position: relative; display: inline-flex; }
+.moderation-trigger {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.25rem; height: 2.25rem; border-radius: 999px;
+  border: 0; background: transparent; cursor: pointer; color: inherit;
+}
+.moderation-trigger:hover { background: rgba(0, 0, 0, 0.06); }
+.moderation-dropdown {
+  position: absolute; right: 0; top: calc(100% + 0.25rem); z-index: 40;
+  min-width: 11rem; padding: 0.35rem; border-radius: 0.75rem;
+  background: var(--glass-bg, #fff); box-shadow: var(--shadow-glass, 0 8px 24px rgba(0,0,0,.12));
+  display: flex; flex-direction: column;
+}
+.moderation-dropdown button {
+  display: flex; align-items: center; gap: 0.5rem; width: 100%;
+  padding: 0.55rem 0.6rem; border: 0; background: transparent;
+  border-radius: 0.5rem; cursor: pointer; font: inherit; text-align: left;
+}
+.moderation-dropdown button:hover { background: rgba(0, 0, 0, 0.05); }
+.moderation-dropdown button.danger { color: #dc2626; }
+
+/* ── Report dialog ────────────────────────────────────────── */
+.report-reasons { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.75rem 0; }
+.report-reason { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+.report-comment {
+  width: 100%; min-height: 4.5rem; resize: vertical; padding: 0.6rem;
+  border: 1px solid rgba(0,0,0,.15); border-radius: 0.5rem; font: inherit;
+}
+
+/* ── Barra de bloqueo en el chat ──────────────────────────── */
+.chat-blocked-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 0.9rem 1rem; background: rgba(0,0,0,.04); border-top: 1px solid rgba(0,0,0,.08);
+}
+.chat-blocked-bar p { margin: 0; font-size: 0.9rem; color: #6b7280; }
+.chat-blocked-bar button {
+  border: 0; background: transparent; color: #dc2626; font-weight: 600;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;
+}
+
+/* ── Aviso de verificación tras registro ────────────────────── */
+.verify-notice { text-align: center; display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem 0; }
+.verify-notice h2 { margin: 0; }
+.verify-notice p { margin: 0; color: #4b5563; }

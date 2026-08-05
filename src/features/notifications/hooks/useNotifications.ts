@@ -1,0 +1,68 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { notificationsService } from "../services/notifications.service";
+import type { Notification } from "../types";
+
+// ponytail: transporte por polling (60s). Es el ÚNICO punto acoplado al
+// mecanismo de entrega: para tiempo real, sustituir el intervalo por una
+// suscripción websocket/SSE aquí sin tocar la campana ni el resto.
+const POLL_MS = 60_000;
+
+interface UseNotificationsResult {
+  notifications: Notification[];
+  unreadCount: number;
+  loading: boolean;
+  error: string | null;
+  markRead: (id: number) => Promise<void>;
+  refresh: () => void;
+}
+
+export function useNotifications(): UseNotificationsResult {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const data = await notificationsService.list();
+      setNotifications(data);
+      setError(null);
+    } catch {
+      setError("No pudimos cargar las notificaciones.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    load();
+    const timer = setInterval(load, POLL_MS);
+    // El layout del dashboard no se remonta al navegar entre páginas, así que
+    // además del poll refrescamos al volver el foco a la pestaña: así una
+    // notificación recién recibida aparece en la campana sin esperar 60s.
+    const onFocus = () => load();
+    window.addEventListener("focus", onFocus);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [load]);
+
+  const markRead = useCallback(async (id: number) => {
+    // Optimista: marca en memoria y confirma contra el backend.
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, leido: true } : n)),
+    );
+    try {
+      await notificationsService.markRead(id);
+    } catch {
+      load();
+    }
+  }, [load]);
+
+  const unreadCount = notifications.filter((n) => !n.leido).length;
+
+  return { notifications, unreadCount, loading, error, markRead, refresh: load };
+}
