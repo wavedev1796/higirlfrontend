@@ -1,0 +1,28 @@
+# Blueprint de Render para el frontend.
+#
+# En el panel: New > Blueprint > este repositorio. Es un Blueprint aparte del
+# backend porque cada proyecto vive en su propio repositorio.
+#
+# Va como Web Service y no como Static Site: la ruta /afinidad/[id] recibe ids
+# que solo se conocen en tiempo de ejecucion, asi que `output: 'export'` no
+# compila sin reescribir esa ruta.
+#
+# NEXT_PUBLIC_API_URL se incrusta en el bundle durante `next build`, no se lee
+# al arrancar: si cambia, hay que volver a desplegar, no basta con editarla.
+
+services:
+  - name: higirl-frontend
+    type: web
+    runtime: node
+    region: oregon
+    plan: free
+    branch: feature/edu-2026-dev
+    buildCommand: npm ci && npm run build
+    # -H y -p explicitos por lo mismo que en el backend: dentro de un contenedor
+    # el balanceador llega desde fuera y no alcanza un socket atado al loopback.
+    startCommand: npm start -- -H 0.0.0.0 -p $PORT
+    envVars:
+      # URL publica del backend en Render, con el prefijo api/v1 incluido.
+      # NEXT_PUBLIC_API_ORIGIN no hace falta: se deduce quitandole ese sufijo.
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
