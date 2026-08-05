@@ -10,16 +10,23 @@
   box-sizing: border-box;
 }
 
+/* Sustituye a las utilidades de Tailwind que llevaba el layout raiz:
+   html.h-full, body.min-h-full y body.flex.flex-col. El suavizado de fuente
+   (antialiased) ya estaba aqui abajo. */
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
 body {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-poppins), "Poppins", Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 ::selection {
