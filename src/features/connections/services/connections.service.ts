@@ -1,4 +1,4 @@
-import { apiClient } from "@/infrastructure/api/client";
+import { apiClient } from "@/lib/api";
 import { API_ENDPOINTS } from "@/infrastructure/api/endpoints";
 import type { Connection, ConnectionStatus } from "../types";
 

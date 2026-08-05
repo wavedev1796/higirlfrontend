@@ -6,7 +6,7 @@ import { useAuthStore } from "@/features/auth";
 import { ModerationMenu } from "@/features/moderation";
 import { ROUTES } from "@/shared/constants/routes";
 import { useConnections } from "../hooks/useConnections";
-import { ConnectionAvatar } from "./ConnectionAvatar";
+import { Avatar } from "@/shared/components/ui/Avatar";
 import { ConnectionsTabs } from "./ConnectionsTabs";
 
 export function ConnectionsView() {
@@ -55,7 +55,7 @@ export function ConnectionsView() {
 
             return (
               <article className="connection-row" key={connection.id}>
-                <ConnectionAvatar user={person} />
+                <Avatar person={person} className="connection-avatar" size={64} />
                 <div className="connection-person">
                   <h2>{fullName}</h2>
                   <p>@{person.usuario}</p>

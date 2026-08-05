@@ -318,35 +318,8 @@
   color: var(--heading-dark);
 }
 
-/* ── Login alert ───────────────────────────────────────────────────── */
 
-.login-alert {
-  display: grid;
-  gap: 0.25rem;
-  margin-top: 1.25rem;
-  border: 1px solid rgba(239, 100, 145, 0.24);
-  border-radius: var(--radius-md);
-  padding: 0.95rem 1rem;
-  background: rgba(255, 228, 237, 0.92);
-  color: var(--error);
-  box-shadow: 0 12px 24px rgba(227, 72, 121, 0.12);
-}
 
-.login-alert.success {
-  border-color: rgba(53, 168, 126, 0.28);
-  background: rgba(232, 250, 243, 0.95);
-  color: #19634b;
-}
-
-.login-alert strong {
-  font-size: 0.95rem;
-}
-
-.login-alert span {
-  color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.45;
-}
 
 /* ── Toast notification ────────────────────────────────────────────── */
 

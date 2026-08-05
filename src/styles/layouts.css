@@ -164,10 +164,6 @@
 
 /* ── Register page ─────────────────────────────────────────────────── */
 
-.register-shell {
-  grid-template-columns: minmax(0, 0.96fr) minmax(500px, 1.04fr);
-}
-
 .register-page {
   position: relative;
   display: grid;
@@ -467,30 +463,8 @@
   margin-top: 0.2rem;
 }
 
-.quick-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 
-.quick-link-item {
-  display: flex;
-  align-items: center;
-  padding: 0.9rem 1.1rem;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--muted);
-  font-weight: 700;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  text-decoration: none;
-}
 
-.quick-link-item:hover, .quick-link-item.active {
-  background: white;
-  color: var(--brand-strong);
-  box-shadow: var(--shadow);
-  transform: translateX(6px);
-}
 
 .suggestion-card {
   display: flex;
@@ -561,27 +535,7 @@
   text-overflow: ellipsis;
 }
 
-.connect-btn {
-  margin-left: auto;
-  min-height: 2.75rem; /* 44px touch target */
-  padding: 0 0.9rem;
-  border-radius: 999px;
-  border: 1.5px solid var(--brand-strong);
-  background: transparent;
-  color: var(--brand-strong);
-  font-size: 0.82rem;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
 
-.connect-btn:hover {
-  background: var(--brand-strong);
-  color: white;
-  box-shadow: 0 4px 12px rgba(239, 100, 145, 0.25);
-}
 
 .suggestion-state {
   margin: 0;
@@ -2181,8 +2135,7 @@
     display: flex;
     justify-content: space-between;
   }
-  .login-shell,
-  .register-shell {
+  .login-shell {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
   }

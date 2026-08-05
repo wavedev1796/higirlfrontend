@@ -1,10 +1,6 @@
-export interface ChatParticipant {
-  id: number;
-  nombre: string;
-  apellido: string;
-  usuario: string;
-  foto?: string | null;
-}
+import type { UserSummary } from "@/shared/types/user.types";
+
+export type ChatParticipant = UserSummary;
 
 export interface Chat {
   id: number;

@@ -8,7 +8,7 @@ import { Toast } from "@/shared/components/ui/Toast";
 import { connectionsService } from "../services/connections.service";
 import { useConnections } from "../hooks/useConnections";
 import type { Connection, ConnectionUser } from "../types";
-import { ConnectionAvatar } from "./ConnectionAvatar";
+import { Avatar } from "@/shared/components/ui/Avatar";
 import { ConnectionsTabs } from "./ConnectionsTabs";
 
 type RequestMode = "recibidas" | "enviadas";
@@ -31,7 +31,7 @@ function RequestCard({
 
   return (
     <article className="connection-row">
-      <ConnectionAvatar user={user} />
+      <Avatar person={user} className="connection-avatar" size={64} />
       <div className="connection-person">
         <h2>{fullName}</h2>
         <p>@{user.usuario}</p>

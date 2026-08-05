@@ -1,11 +1,8 @@
+import type { UserSummary } from "@/shared/types/user.types";
+
 export type ConnectionStatus = "pendiente" | "aceptada" | "rechazada";
 
-export interface ConnectionUser {
-  id: number;
-  nombre: string;
-  apellido: string;
-  usuario: string;
-  foto?: string | null;
+export interface ConnectionUser extends UserSummary {
   bio?: string | null;
   profesion?: string | null;
 }

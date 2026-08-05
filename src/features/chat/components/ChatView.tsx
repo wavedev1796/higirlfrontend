@@ -23,7 +23,7 @@ import { useAuthStore } from "@/features/auth";
 import { ModerationMenu, useBlockedUsers } from "@/features/moderation";
 import { useChat } from "../hooks/useChat";
 import type { Chat, ChatMessage, ChatParticipant } from "../types";
-import { ChatAvatar } from "./ChatAvatar";
+import { Avatar } from "@/shared/components/ui/Avatar";
 
 const EMOJIS = ["😊", "💖", "✨", "😂", "🥰", "🙌", "🌸", "💪", "🎉", "🤗"];
 
@@ -143,7 +143,7 @@ export function ChatView({ initialParticipantId }: { initialParticipantId?: numb
                 className={`chat-list-item${item.id === chat.selectedChatId ? " active" : ""}`}
                 onClick={() => selectConversation(item.id)}
               >
-                <ChatAvatar person={participant} />
+                <Avatar person={participant} className="chat-avatar" size={52} />
                 <span className="chat-list-copy">
                   <strong>{name}</strong>
                   <span>@{participant.usuario}</span>
@@ -170,7 +170,7 @@ export function ChatView({ initialParticipantId }: { initialParticipantId?: numb
               <button type="button" className="chat-back" onClick={() => selectConversation(null)} aria-label="Volver a la lista de chats">
                 <ChevronLeft size={22} aria-hidden />
               </button>
-              <ChatAvatar person={person} />
+              <Avatar person={person} className="chat-avatar" size={52} />
               <div>
                 <h2>{person.nombre} {person.apellido}</h2>
                 <span>@{person.usuario}</span>

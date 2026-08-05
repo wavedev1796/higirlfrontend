@@ -1,12 +1,9 @@
+import type { UserSummary } from "@/shared/types/user.types";
+
 import type { CatalogItem } from "@/features/profile/types";
 
-export interface MatchingUser {
-  id: number;
-  nombre: string;
-  apellido: string;
-  usuario: string;
+export interface MatchingUser extends UserSummary {
   ciudad?: number | null;
-  foto?: string | null;
   bio?: string | null;
   intereses: CatalogItem[];
 }

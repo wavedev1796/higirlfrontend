@@ -1,3 +1,5 @@
+import type { UserSummary } from "@/shared/types/user.types";
+
 export type ReportReason =
   | "acoso"
   | "spam"
@@ -11,10 +13,4 @@ export const REPORT_REASONS: { value: ReportReason; label: string }[] = [
   { value: "contenido_inapropiado", label: "Contenido inapropiado" },
 ];
 
-export interface BlockedUser {
-  id: number;
-  nombre: string;
-  apellido: string;
-  usuario: string;
-  foto?: string | null;
-}
+export type BlockedUser = UserSummary;
